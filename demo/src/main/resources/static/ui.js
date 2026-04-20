@@ -22,12 +22,18 @@ export function render(events) {
 
   events.forEach(e => {
     const div = document.createElement("div");
-    div.classList.add("column");
+    div.classList.add("card");
 
     div.innerHTML = `
+      <div class="card-header" style="display: flex; flex-direction: row; gap: 0.5em; align-items: center; justify-content: space-between;">
+        <small>${formatDate(e.date)}</small>
+        <small>${e.location.name + ", " + e.location.city}</small>
+      </div>
       <h3>${e.name}</h3>
-      <small>${formatDate(e.date)}</small>
+      <div class="card-footer">
+      <button class="badge small">${e.type}</button>
       <div class="badge medium">${e.status}</div>
+      </div>
     `;
 
     container.appendChild(div);

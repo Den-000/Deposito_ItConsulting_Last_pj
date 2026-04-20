@@ -155,19 +155,23 @@
     }
   }
   
-  /* singola colonna (lista task) */
-  .column {
+  /* Card che rappresenta l'evento */
+  .card {
     flex: 1; /* tutte le colonne stessa larghezza */
     background: var(--card);
     padding: 15px;
     border-radius: 16px;
     border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column; /* testo sopra, badge sotto */
+    justify-content: space-between; /* testo + badge separati */
+    align-items: center;
   }
   
   /* =========================
-     TASK
+     EVENTO NON DISPONIBILE
      ========================= */
-  .task {
+  .event {
     padding: 10px;
     margin: 10px 0;
     border-radius: 10px;
@@ -178,7 +182,7 @@
   }
   
   /* task completata */
-  .task.done {
+  .event.done {
     opacity: 0.5; /* effetto "sbiadito" */
     text-decoration: line-through; /* testo barrato */
   }
