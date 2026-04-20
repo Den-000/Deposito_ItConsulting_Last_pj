@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>EventsManager Dashboard</title>
-  <!-- CSS principale -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/profile-menu.css">
 </head>
 
-<!-- onload = esegue initApp appena la pagina è caricata -->
 <body>
 
-<!-- ================= SIDEBAR ================= -->
 <div class="sidebar">
-  <!-- titolo app/logo -->
   <h2>EventsManager</h2>
 
-  <!-- menu navigazione -->
-   <!-- TODO da implementare -->
   <div id="navEventsBtn" class="nav-item">Eventi</div>
   <div class="nav-item">I Miei Biglietti</div>
 
@@ -25,57 +21,50 @@
   <h4>Check-In</h4>
   <input type="text" placeholder="Inserisci qr code">
 
-  <!-- TODO Implementare onclick doCheckIn -->
   <button>Effettua Check-In</button>
-
-  <!-- TODO Da inserire footer -->
-
 </div>
 
-<!-- ================= TOPBAR ================= -->
 <div class="topbar">
-
   <form id="searchForm" class="search-form">
     <input id="searchInput" type="text" class="search" placeholder="Cerca evento">
 
     <button type="submit" class="topbar_btn">
-      &#x1F50D; Cerca <!-- 🔍 -->
+      🔍 Cerca
     </button>
   </form>
-  
+
   <div class="topbar-right">
-    <!-- bottone tema -->
-    <button class="topbar_btn" onclick="toggleTheme()">&#x1F314; Tema</button> <!-- 🌓 -->
-    <!-- TODO Da implementare menù a tendina -->
-  <div id="topBarBtn">&#x1F464; Logout</div> <!-- 👤 -->
+    <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
+
+    <div class="profile-menu">
+      <button type="button" class="profile-btn" id="profileBtn">
+        👤 <span id="username">Utente</span> ▼
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/profilo.html">Profilo</a>
+        <a href="/biglietti.html">I miei biglietti</a>
+        <a href="#" id="logoutLink">Logout</a>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ================= MAIN CONTENT ================= -->
 <div class="main" id="main">
-
-
-   <!-- ================= ADMIN PANEL ================= -->
-  <!-- inizialmente nascosto → viene mostrato se logghi come admin -->
   <div id="adminPanel" class="admin-panel" style="display:none;">
-    <h3>&#x1F4CA; ADMIN PANEL</h3> <!-- 📊 -->
+    <h3>📊 ADMIN PANEL</h3>
 
-    <!-- TODO I dati dovranno essere mostrati dinamicamente ed essere sincronizzati -->
     <p>Utenti totali: 120</p>
     <p>Attivi: 98</p>
     <p>Admin: 5</p>
 
     <hr>
-    <!-- TODO vanno inserite le varie actions ed implementate le rispettive funzioni -->
     <button>Promuovi Admin</button>
     <button>Banna Utente</button>
   </div>
-
-
-  <!-- TODO Va fatta una migliore ripartizione del codice frontend -->
 </div>
 
-<!-- JS principale -->
 <script type="module" src="app.js"></script>
+<script src="/profile-menu.js"></script>
 </body>
 </html>
