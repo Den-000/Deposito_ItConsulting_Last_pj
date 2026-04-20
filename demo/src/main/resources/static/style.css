@@ -157,15 +157,50 @@
   
   /* Card che rappresenta l'evento */
   .card {
-    flex: 1; /* tutte le colonne stessa larghezza */
     background: var(--card);
     padding: 15px;
     border-radius: 16px;
     border: 1px solid var(--border);
     display: flex;
-    flex-direction: column; /* testo sopra, badge sotto */
-    justify-content: space-between; /* testo + badge separati */
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
+    gap: 2vh;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+  }
+
+  .card-header small:first-of-type {
+    margin-right: auto;
+  }
+
+  .card-header small:last-of-type {
+    margin-left: auto;
+  }
+  
+  .card-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: auto;
+    width: 100%;
+    position: relative;
+  }
+
+  .card-footer button {
+    transform: translateX(11vw); /* sposta il bottone a destra */
+    width: auto;          /* importante: non si espande */
+  }
+  
+  .card-footer .badge {
+    margin-left: auto;
   }
   
   /* =========================

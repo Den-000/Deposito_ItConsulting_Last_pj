@@ -25,14 +25,16 @@ export function render(events) {
     div.classList.add("card");
 
     div.innerHTML = `
-      <div class="card-header" style="display: flex; flex-direction: row; gap: 0.5em; align-items: center; justify-content: space-between;">
+      <div class="card-header">
         <small>${formatDate(e.date)}</small>
         <small>${e.location.name + ", " + e.location.city}</small>
       </div>
       <h3>${e.name}</h3>
       <div class="card-footer">
-      <button class="badge small">${e.type}</button>
-      <div class="badge medium">${e.status}</div>
+      <div><button>${e.type}</button></div>
+      
+      // TODO Cambiare da e.status a rapporto fra posti occupati e posti totali, con badge verde se < 50%, giallo se tra 50% e 80%, rosso se > 80%
+      <div class="badge medium" style="align-self: flex-end;">${e.status}</div>
       </div>
     `;
 
