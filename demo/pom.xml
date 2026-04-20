@@ -45,13 +45,6 @@
 		<license/>
 	</licenses>
 
-	<!-- SVILUPPATORI (non configurati) -->
-	<developers>
-		<developer>
-			d.d.
-		</developer>
-	</developers>
-
 	<!-- CONFIGURAZIONE SCM (Git, SVN ecc.) -->
 	<scm>
 		<connection/>
