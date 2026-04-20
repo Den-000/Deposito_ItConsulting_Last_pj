@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,5 +75,18 @@ public class EventController {
     @GetMapping("/search")
     public List<Event> getByName(@RequestParam String name) {
         return repo.findByNameContainingIgnoreCase(name);
+    }
+
+    /**
+     * RESTITUISCE un evento per ID.
+     * Metodo HTTP: GET /events/{id}
+     * 
+     * @param id identificatore dell'evento
+     * @return evento trovato o errore se non esiste
+     */
+    @GetMapping("/{id}")
+    public Event getById(@PathVariable Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
     }
 }

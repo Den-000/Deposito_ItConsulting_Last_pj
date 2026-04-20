@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +18,7 @@ import lombok.*;
 public class TicketType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -43,5 +45,6 @@ public class TicketType {
      * Evento a cui appartiene questo tipo di biglietto
      */
     @ManyToOne
+    @JsonBackReference
     private Event event;
 }

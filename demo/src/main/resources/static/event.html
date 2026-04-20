@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dettaglio Evento</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>Eventi</h2>
+  <div class="nav-item" id="goHome">Home</div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <h3>Dettaglio Evento</h3>
+</div>
+
+<!-- MAIN -->
+<div class="main" style="grid-template-columns: 1fr;">
+
+  <div class="card">
+
+    <div class="card-header">
+      <small id="date"></small>
+      <small id="location"></small>
+    </div>
+
+    <h2 id="name">Caricamento...</h2>
+
+    <p id="description"></p>
+
+    <div class="badge medium" id="status"></div>
+
+    <small id="seats"></small>
+
+    <div class="tickets">
+      <h3>Biglietti disponibili</h3>
+      <div id="ticketsList"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- JS -->
+<script type="module" src="eventPage.js"></script>
+
+</body>
+</html>

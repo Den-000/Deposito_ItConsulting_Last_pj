@@ -68,3 +68,9 @@ export function reset() {
   resetState();
   clearUI();
 }
+
+export function goToEventPage(eventId) {
+  if (!eventId) return;
+  console.log(`Navigating to event page with ID: ${eventId}`);
+  window.location.href = `/event.html?id=${encodeURIComponent(eventId)}`;
+}

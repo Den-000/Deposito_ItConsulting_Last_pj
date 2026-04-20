@@ -31,7 +31,7 @@ export function render(events) {
       </div>
       <h3>${e.name}</h3>
       <div class="card-footer">
-      <div><button>BIGLIETTI</button></div>
+      <div><button class="ticket-btn">BIGLIETTI</button></div>
       
       
       <div class="badge medium">${e.status}</div>
@@ -40,6 +40,12 @@ export function render(events) {
 // TODO Cambiare da e.status a rapporto fra posti occupati e posti totali, con badge verde se < 50%, giallo se tra 50% e 80%, rosso se > 80%
 
     container.appendChild(div);
+    
+    const btn = div.querySelector(".ticket-btn");
+
+    btn.onclick = () => {
+      window.goToEventPage(e.id);
+    };
   });
 }
 

@@ -16,19 +16,17 @@ function initApp() {
   console.log("DOM pronto");
 
   // form ricerca eventi
-  document
-    .getElementById("searchForm")
-    .addEventListener("submit", handleSearch);
-
+  const searchForm = document.getElementById("searchForm");
+  if (searchForm) {
+    searchForm.addEventListener("submit", handleSearch);
+  }
   // bottone "Eventi"
-  document
-    .getElementById("navEventsBtn")
-    .addEventListener("click", loadAllEvents);
+  const navBtn = document.getElementById("navEventsBtn");
+  if (navBtn) navBtn.addEventListener("click", loadAllEvents);
 
   // logout
-  document
-    .getElementById("topBarBtn")
-    .addEventListener("click", logout);
+  const logoutBtn = document.getElementById("topBarBtn");
+  if (logoutBtn) logoutBtn.addEventListener("click", logout);
 
   // inizializzazione stato UI
   reset();
@@ -44,6 +42,10 @@ function initApp() {
 // esposizione globale per HTML
 window.initApp = initApp;
 window.toggleTheme = toggleTheme;
+window.goToEventPage = function(eventId) {
+  if (!eventId) return;
+  window.location.href = `/event.html?id=${encodeURIComponent(eventId)}`;
+};
 
 // esegue init quando il DOM è pronto
 window.addEventListener("DOMContentLoaded", initApp);
