@@ -31,12 +31,13 @@ export function render(events) {
       </div>
       <h3>${e.name}</h3>
       <div class="card-footer">
-      <div><button>${e.type}</button></div>
+      <div><button>BIGLIETTI</button></div>
       
-      // TODO Cambiare da e.status a rapporto fra posti occupati e posti totali, con badge verde se < 50%, giallo se tra 50% e 80%, rosso se > 80%
-      <div class="badge medium" style="align-self: flex-end;">${e.status}</div>
+      
+      <div class="badge medium">${e.status}</div>
       </div>
     `;
+// TODO Cambiare da e.status a rapporto fra posti occupati e posti totali, con badge verde se < 50%, giallo se tra 50% e 80%, rosso se > 80%
 
     container.appendChild(div);
   });
