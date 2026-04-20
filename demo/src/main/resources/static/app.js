@@ -5,6 +5,7 @@ import { initResize } from "./resize.js";
 import { toggleTheme } from "./utils.js";
 import { state } from "./state.js";
 import { logout } from "./auth.js";
+import { initProfileMenu } from "./profile-menu.js";
 
 /**
  * FUNZIONE PRINCIPALE DI INIZIALIZZAZIONE
@@ -37,6 +38,9 @@ function initApp() {
 
   // gestione responsive delle dimensioni della UI
   initResize();
+
+  // menu profilo
+  initProfileMenu();
 }
 
 // esposizione globale per HTML

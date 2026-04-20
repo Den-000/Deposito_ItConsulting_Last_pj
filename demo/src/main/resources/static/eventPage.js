@@ -1,10 +1,11 @@
 import { formatDate } from "./ui.js";
+import { initProfileMenu } from "./profile-menu.js";
 
 // prendi ID dall'URL
 const params = new URLSearchParams(window.location.search);
 const eventId = params.get("id");
 
-// endpoint backend (ATTENZIONE: devi averlo nel controller)
+// endpoint backend
 const url = `/events/${eventId}`;
 
 /**
@@ -54,9 +55,9 @@ function renderEvent(event) {
   document.getElementById("location").textContent =
     `${event.location?.address || ""}, ${event.location?.name || ""}, ${event.location?.city || ""}`;
 
-  document.getElementById("status").textContent = `${event.bookedSeats}/${event.maxSeats}`;
+  document.getElementById("seats").textContent = `${event.bookedSeats}/${event.maxSeats}`;
 
-  document.getElementById("seats").textContent =
+  document.getElementById("status").textContent =
   event.status || "";
 
   renderTicketTypes(event.ticketTypes || []);
@@ -71,14 +72,14 @@ function renderTicketTypes(ticketTypes) {
 
   ticketTypes.forEach(t => {
     const div = document.createElement("div");
-    div.className = "event";
+    div.className = "card";
 
     div.innerHTML = `
       <div>
-        <strong>${t.name}</strong><br/>
+        <strong>${t.name}</strong>
         €${t.price}
       </div>
-
+      <p>Aggiungere descrizione del pacchetto</p>
       <div>
         Disponibili: ${t.availableSeats}
       </div>
@@ -87,7 +88,7 @@ function renderTicketTypes(ticketTypes) {
     `;
 
     div.querySelector(".book-btn").onclick = () => {
-      console.log("Prenota:", t.type);
+      console.log("Prenota:", t.name);
     };
 
     container.appendChild(div);
@@ -96,3 +97,4 @@ function renderTicketTypes(ticketTypes) {
 
 // INIT
 loadEvent();
+initProfileMenu();
