@@ -1,0 +1,259 @@
+/* =========================
+   VARIABILI GLOBALI (TEMA DARK DI DEFAULT)
+   ========================= */
+   :root {
+    --primary: #4f46e5; /* colore principale (bottoni, elementi attivi) */
+    --primary2: #3b82f6; /* variante del colore principale (hover) */
+    --bg: #0f172a; /* background generale dell'app */
+    --card: rgba(255,255,255,0.06); /* sfondo semi-trasparente per card */
+    --text: #e5e7eb; /* colore principale del testo */
+    --muted: #94a3b8; /* colore testo secondario */
+    --border: rgba(255,255,255,0.08); /* colore bordi */
+  }
+  
+  /* =========================
+     TEMA LIGHT (ATTIVATO CON data-theme="light")
+     ========================= */
+  [data-theme="light"] {
+    --bg: #f8fafc; /* background chiaro */
+    --text: #0f172a; /* testo scuro */
+    --card: white; /* card bianche */
+    --border: #e2e8f0; /* bordi chiari */
+  }
+  
+  /* =========================
+     RESET CSS BASE
+     ========================= */
+  * {
+    margin: 0; /* rimuove margini di default */
+    padding: 0; /* rimuove padding di default */
+    box-sizing: border-box; /* include padding e bordo nella dimensione */
+    font-family: system-ui, Inter, sans-serif; /* font globale */
+  }
+  
+  /* =========================
+     BODY PRINCIPALE
+     ========================= */
+  body {
+    background: var(--bg); /* sfondo dinamico (dark/light) */
+    color: var(--text); /* colore testo */
+    display: flex; /* layout orizzontale (sidebar + contenuto) */
+  }
+  
+  /* =========================
+     SIDEBAR
+     ========================= */
+  .sidebar {
+    width: 260px; /* larghezza fissa */
+    height: 100vh; /* altezza piena viewport */
+    position: fixed; /* resta fissa anche scrollando */
+    left: 0;
+    top: 0;
+    padding: 20px;
+    border-right: 1px solid var(--border); /* linea separazione */
+    background: rgba(0,0,0,0.2); /* sfondo semi-trasparente */
+    backdrop-filter: blur(10px); /* effetto blur (glassmorphism) */
+  }
+  
+  /* titolo sidebar */
+  .sidebar h2 {
+    margin-bottom: 20px;
+  }
+  
+  /* elementi menu */
+  .nav-item {
+    padding: 10px;
+    border-radius: 10px; /* bordi arrotondati */
+    cursor: pointer; /* cambia cursore al passaggio */
+    margin-bottom: 5px;
+  }
+  
+  /* effetto hover menu */
+  .nav-item:hover {
+    background: var(--card); /* evidenzia elemento */
+  }
+  
+  /* =========================
+     TOPBAR (barra superiore)
+     ========================= */
+  .topbar {
+    position: fixed; /* sempre visibile in alto */
+    left: 260px; /* spostata a destra della sidebar */
+    right: 0; /* occupa tutto lo spazio restante */
+    top: 0;
+    height: 60px;
+    display: flex;
+    flex-direction: row; /* layout orizzontale */
+    align-items: center; /* allinea verticalmente */
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px); /* effetto glass */
+  }
+  
+  #searchForm {
+    width: 60%; /* larghezza relativa */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spazio tra input e bottone */
+  }
+
+  /* campo ricerca */
+  .search {
+    width: 40%; /* larghezza relativa */
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+  }
+
+  /* input resta a sinistra */
+  .search {
+    width: 40%;
+  }
+
+  /* spinge tutto il resto a destra */
+  .topbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  /* bottone più ordinato */
+  .topbar_btn {
+    padding: 6px 12px;
+    border-radius: 8px;
+    width: auto;
+  }
+
+  /* =========================
+      AREA PRINCIPALE
+      ========================= */
+    .main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  
+    width: 100%;
+    margin-left: 270px;
+    margin-top: 70px;
+  
+    align-content: start;
+  }
+  
+  /* mobile */
+  @media (max-width: 1000px) {
+    .main {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .main {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* singola colonna (lista task) */
+  .column {
+    flex: 1; /* tutte le colonne stessa larghezza */
+    background: var(--card);
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+  }
+  
+  /* =========================
+     TASK
+     ========================= */
+  .task {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    display: flex;
+    justify-content: space-between; /* testo + badge separati */
+    align-items: center;
+  }
+  
+  /* task completata */
+  .task.done {
+    opacity: 0.5; /* effetto "sbiadito" */
+    text-decoration: line-through; /* testo barrato */
+  }
+  
+  /* =========================
+     BADGE PRIORITÀ
+     ========================= */
+  .badge {
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 8px;
+  }
+  
+  /* livelli priorità */
+  .high { background: #ef4444; }   /* rosso = alta */
+  .medium { background: #f59e0b; } /* arancione = media */
+  .low { background: #22c55e; }    /* verde = bassa */
+  
+  /* =========================
+     AUTH (LOGIN / REGISTER)
+     ========================= */
+  
+  /* contenitore centrale */
+  .auth-container {
+    width: 100%;
+    height: 100vh;
+  
+    /* centra contenuto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* box login/register */
+  .auth-box {
+    width: 350px;
+    padding: 25px;
+    border-radius: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+  
+  /* input form */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+  }
+  
+  /* bottoni */
+  button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--primary);
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* hover bottone */
+  button:hover {
+    background: var(--primary2);
+  }
+  
+  /* =========================
+     ADMIN PANEL
+     ========================= */
+  .admin-panel {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 16px;
+    background: var(--card);
+  }

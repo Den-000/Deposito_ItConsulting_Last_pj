@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  FILE DI CONFIGURAZIONE MAVEN (POM = Project Object Model)
+
+  Serve per:
+  - definire dipendenze (librerie)
+  - configurare build
+  - gestire versioni
+  - integrare plugin
+
+  È il "cuore" del progetto Java Spring Boot.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- Versione del modello POM -->
+	<modelVersion>4.0.0</modelVersion>
+
+	<!--
+	  PARENT: eredita configurazioni base da Spring Boot
+	  (versioni, plugin, dependency management, ecc.)
+	-->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.0.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<!-- IDENTIFICAZIONE PROGETTO -->
+	<groupId>com.example</groupId>   <!-- namespace aziendale -->
+	<artifactId>demo</artifactId>    <!-- nome progetto -->
+	<version>0.0.1-SNAPSHOT</version> <!-- versione (SNAPSHOT = in sviluppo) -->
+
+	<!-- METADATI (attualmente vuoti) -->
+	<name/>
+	<description/>
+	<url/>
+
+	<!-- LICENZE (non configurate) -->
+	<licenses>
+		<license/>
+	</licenses>
+
+	<!-- SVILUPPATORI (non configurati) -->
+	<developers>
+		<developer>
+			d.d.
+		</developer>
+	</developers>
+
+	<!-- CONFIGURAZIONE SCM (Git, SVN ecc.) -->
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+
+	<!-- PROPRIETÀ GLOBALI -->
+	<properties>
+		<java.version>21</java.version>
+		<!-- Versione Java utilizzata -->
+	</properties>
+
+	<!-- ===============================
+	     DIPENDENZE (LIBRERIE)
+	     =============================== -->
+	<dependencies>
+
+		<!-- JPA: gestione database + ORM -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- EMAIL -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+		<!-- SECURITY (login, JWT, autenticazione) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- WEB MVC (REST API, controller HTTP) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<!-- DEVTOOLS (hot reload in sviluppo) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope> <!-- solo a runtime -->
+			<optional>true</optional> <!-- non incluso nei build finali -->
+		</dependency>
+
+		<!-- DRIVER MYSQL -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- LOMBOK (riduce boilerplate: getter/setter ecc.) -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- ===============================
+		     DIPENDENZE DI TEST
+		     =============================== -->
+
+		<!-- Test JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Test MAIL -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Test SECURITY -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Test WEB -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- ===============================
+             JWT (JSON WEB TOKEN)
+             =============================== -->
+
+        <!-- API principale JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+
+        <!-- Implementazione runtime JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Supporto JSON (Jackson) per JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
+
+	</dependencies>
+
+	<!-- ===============================
+	     BUILD CONFIGURATION
+	     =============================== -->
+	<build>
+		<plugins>
+
+			<!-- Plugin Spring Boot per build e packaging -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+
+				<!-- Configurazione plugin -->
+				<configuration>
+					<excludes>
+						<!-- Esclude Lombok dal pacchetto finale -->
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<!-- Plugin compilazione Java -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+
+				<executions>
+
+					<!-- Compilazione codice principale -->
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+
+						<configuration>
+							<!-- supporto Lombok (annotation processing) -->
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</execution>
+
+					<!-- Compilazione codice di test -->
+					<execution>
+						<id>default-testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+
+						<configuration>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
