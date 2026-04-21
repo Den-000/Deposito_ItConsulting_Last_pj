@@ -3,24 +3,24 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * Entity che rappresenta la tabella USERS nel database.
- */
-@Entity // indica entità JPA
-@Table(name = "users") // nome tabella
-
-@Data // Lombok: genera getter, setter, toString, ecc.
+@Entity
+@Table(name = "users")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyUser {
 
-    @Id // chiave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username; // nome utente
+    private String username;
+    private String name;
+    private String surname;
     private String email;
-    private String password; // password (DEVE essere hashata)
+    private String phone;
+    private String password;
+
     @Enumerated(EnumType.STRING)
-    private Role role; // ADMIN, USER
+    private Role role;
 }
