@@ -37,14 +37,14 @@
     <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
 
     <div class="profile-menu">
-      <button type="button" class="profile-btn" id="profileBtn">
+      <button type="button" class="profile-btn" onclick="toggleMenu()">
         👤 <span id="username">Utente</span> ▼
       </button>
 
       <div class="dropdown-menu" id="dropdownMenu">
         <a href="/profilo.html">Profilo</a>
         <a href="/biglietti.html">I miei biglietti</a>
-        <a href="#" id="logoutLink">Logout</a>
+        <a href="#" onclick="logout()">Logout</a>
       </div>
     </div>
   </div>

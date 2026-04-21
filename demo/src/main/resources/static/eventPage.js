@@ -1,16 +1,14 @@
 import { formatDate } from "./ui.js";
 import { initProfileMenu } from "./profile-menu.js";
+import { toggleTheme, applySavedTheme } from "./utils.js";
 
-// prendi ID dall'URL
 const params = new URLSearchParams(window.location.search);
 const eventId = params.get("id");
 
-// endpoint backend
 const url = `/events/${eventId}`;
 
-/**
- * CARICA EVENTO
- */
+window.toggleTheme = toggleTheme;
+
 async function loadEvent() {
   if (!eventId) {
     console.error("ID evento mancante");
@@ -34,18 +32,17 @@ async function loadEvent() {
     renderEvent(event);
 
     const homeBtn = document.getElementById("goHome");
-    homeBtn.onclick = () => {
-      window.location.href = "/home.html";
-    };
+    if (homeBtn) {
+      homeBtn.onclick = () => {
+        window.location.href = "/home.html";
+      };
+    }
 
   } catch (err) {
     console.error("Errore caricamento evento:", err);
   }
 }
 
-/**
- * RENDER EVENTO
- */
 function renderEvent(event) {
   document.getElementById("name").textContent = event.name;
   document.getElementById("description").textContent = event.description || "";
@@ -57,15 +54,11 @@ function renderEvent(event) {
 
   document.getElementById("seats").textContent = `${event.bookedSeats}/${event.maxSeats}`;
 
-  document.getElementById("status").textContent =
-  event.status || "";
+  document.getElementById("status").textContent = event.status || "";
 
   renderTicketTypes(event.ticketTypes || []);
 }
 
-/**
- * RENDER BIGLIETTI
- */
 function renderTicketTypes(ticketTypes) {
   const container = document.getElementById("ticketsList");
   container.innerHTML = "";
@@ -83,7 +76,6 @@ function renderTicketTypes(ticketTypes) {
       <div>
         Disponibili: ${t.availableSeats}
       </div>
-
       <button class="book-btn">PRENOTA</button>
     `;
 
@@ -95,6 +87,6 @@ function renderTicketTypes(ticketTypes) {
   });
 }
 
-// INIT
-loadEvent();
+applySavedTheme();
 initProfileMenu();
+loadEvent();
