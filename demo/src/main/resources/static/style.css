@@ -280,3 +280,64 @@ button:hover {
   border-radius: 16px;
   background: var(--card);
 }
+
+/* =========================
+   PROFILE PANEL
+   ========================= */
+.profile-card {
+  max-width: 850px;
+  width: 100%;
+  margin: auto;
+  padding: 30px 40px;
+  align-items: stretch;
+  text-align: center;
+}
+
+.profile-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.profile-field {
+  margin-bottom: 18px;
+}
+
+.profile-field label {
+  display: block;
+  text-align: center;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.profile-field > div {
+  text-align: center;
+}
+
+.profile-field:not(:has(.password-row)) > div {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.password-row input {
+  margin: 0;
+  max-width: 300px;
+  text-align: center;
+}
+
+.password-row button {
+  width: auto;
+  padding: 10px 14px;
+}

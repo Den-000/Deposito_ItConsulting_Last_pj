@@ -36,7 +36,6 @@
       </button>
 
       <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/profilo.html">Profilo</a>
         <a href="/biglietti.html">I miei biglietti</a>
         <a href="#" onclick="logout()">Logout</a>
       </div>
@@ -45,7 +44,7 @@
 </div>
 
 <div class="main" style="grid-template-columns: 1fr;">
-  <div class="card" style="max-width:600px;margin:auto;">
+  <div class="card profile-card">
 
     <h2>Profilo Utente</h2>
 
@@ -75,17 +74,15 @@
     </div>
 
     <div class="profile-field">
-      <label>Password</label>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div id="p_password">********</div>
-        <button id="togglePassword" style="width:auto;">👁</button>
-      </div>
+        <label>Password</label>
+        <div class="password-row">
+            <input type="password" id="p_password" value="" readonly>
+            <button type="button" id="togglePassword">👁</button>
+        </div>
     </div>
-
   </div>
 </div>
 
 <script type="module" src="profilo.js"></script>
-
 </body>
 </html>
