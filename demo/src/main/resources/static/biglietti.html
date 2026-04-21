@@ -31,17 +31,16 @@
   <div class="topbar-right">
     <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
 
-    <div class="profile-menu">
-      <button type="button" class="profile-btn" id="profileBtn">
-        👤 <span id="username">Utente</span> ▼
-      </button>
+   <div class="profile-menu">
+  <button type="button" class="profile-btn" onclick="toggleMenu()">
+    👤 <span id="username">Utente</span> ▼
+  </button>
 
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/profilo.html">Profilo</a>
-        <a href="/biglietti.html">I miei biglietti</a>
-        <a href="#" id="logoutLink">Logout</a>
-      </div>
-    </div>
+  <div class="dropdown-menu" id="dropdownMenu">
+    <a href="/profilo.html">Profilo</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</div>
   </div>
 </div>
 
@@ -49,7 +48,13 @@
   <div id="ticketsContainer" class="tickets-container"></div>
 </div>
 
-<script src="/profile-menu.js"></script>
+<script type="module">
+  import { initProfileMenu } from "/profile-menu.js";
+  import { applySavedTheme, toggleTheme } from "/utils.js";
+  applySavedTheme();
+  initProfileMenu();
+  window.toggleTheme = toggleTheme;
+</script>
 <script src="/biglietti.js"></script>
 <script type="module" src="app.js"></script>
 </body>

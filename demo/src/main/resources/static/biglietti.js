@@ -1,95 +1,119 @@
-const tickets = [
-    {
-        evento: "Concerto Rock",
-        data: "10/05/2026",
-        ora: "21:00",
-        luogo: "Palazzetto dello Sport, Roma",
-        posto: "Settore A - Fila 3 - Posto 12",
-        costo: "45,00 €",
-        codice: "ROCK-ROMA-2026-A3-12",
-        stato: "ATTIVO",
-        qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ROCK-ROMA-2026-A3-12"
-    },
-    {
-        evento: "Spettacolo Teatro",
-        data: "15/05/2026",
-        ora: "20:30",
-        luogo: "Teatro Centrale, Milano",
-        posto: "Platea - Fila 1 - Posto 8",
-        costo: "32,50 €",
-        codice: "TEATRO-MI-2026-P1-08",
-        stato: "ATTIVO",
-        qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TEATRO-MI-2026-P1-08"
-    },
-    {
-        evento: "Festival Jazz",
-        data: "22/05/2026",
-        ora: "19:45",
-        luogo: "Arena Summer, Napoli",
-        posto: "Settore B - Fila 5 - Posto 21",
-        costo: "28,00 €",
-        codice: "JAZZ-NA-2026-B5-21",
-        stato: "USATO",
-        qr: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=JAZZ-NA-2026-B5-21"
-    }
-];
-
 const ticketsContainer = document.getElementById("ticketsContainer");
 
+function formatDate(dateString) {
+    if (!dateString) return "Dato non disponibile";
+
+    const date = new Date(dateString);
+    return date.toLocaleDateString("it-IT") + " " + date.toLocaleTimeString("it-IT", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+function getStatus(ticket) {
+    if (!ticket.valid) return "NON VALIDO";
+    if (ticket.checkedIn) return "USATO";
+    return "ATTIVO";
+}
+
 function createTicketCard(ticket) {
+    const status = getStatus(ticket);
+
     return `
         <div class="ticket-card">
             <div class="ticket-left">
                 <div class="ticket-header">
-                    <div class="ticket-title">${ticket.evento}</div>
-                    <div class="ticket-status">${ticket.stato}</div>
+                    <div class="ticket-title">${ticket.eventName ?? "Evento"}</div>
+                    <div class="ticket-status">${status}</div>
                 </div>
 
                 <div class="ticket-details">
                     <div class="ticket-detail">
-                        <div class="ticket-detail-label">Data</div>
-                        <div class="ticket-detail-value">${ticket.data}</div>
-                    </div>
-
-                    <div class="ticket-detail">
-                        <div class="ticket-detail-label">Ora</div>
-                        <div class="ticket-detail-value">${ticket.ora}</div>
+                        <div class="ticket-detail-label">Data evento</div>
+                        <div class="ticket-detail-value">${formatDate(ticket.eventDate)}</div>
                     </div>
 
                     <div class="ticket-detail">
                         <div class="ticket-detail-label">Luogo</div>
-                        <div class="ticket-detail-value">${ticket.luogo}</div>
+                        <div class="ticket-detail-value">${ticket.eventLocation ?? "Dato non disponibile"}</div>
                     </div>
 
                     <div class="ticket-detail">
-                        <div class="ticket-detail-label">Posto</div>
-                        <div class="ticket-detail-value">${ticket.posto}</div>
+                        <div class="ticket-detail-label">Tipo biglietto</div>
+                        <div class="ticket-detail-value">${ticket.ticketType ?? "Dato non disponibile"}</div>
                     </div>
 
                     <div class="ticket-detail">
                         <div class="ticket-detail-label">Costo</div>
-                        <div class="ticket-detail-value">${ticket.costo}</div>
+                        <div class="ticket-detail-value">${ticket.price != null ? ticket.price + " €" : "Dato non disponibile"}</div>
+                    </div>
+
+                    <div class="ticket-detail">
+                        <div class="ticket-detail-label">Email acquisto</div>
+                        <div class="ticket-detail-value">${ticket.email ?? "Dato non disponibile"}</div>
+                    </div>
+
+                    <div class="ticket-detail">
+                        <div class="ticket-detail-label">Data acquisto</div>
+                        <div class="ticket-detail-value">${formatDate(ticket.purchaseDate)}</div>
                     </div>
 
                     <div class="ticket-detail">
                         <div class="ticket-detail-label">Codice biglietto</div>
-                        <div class="ticket-detail-value">${ticket.codice}</div>
+                        <div class="ticket-detail-value">${ticket.qrCode ?? "Dato non disponibile"}</div>
                     </div>
                 </div>
             </div>
 
             <div class="ticket-right">
                 <div class="qr-box">
-                    <img src="${ticket.qr}" alt="QR Code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(ticket.qrCode)}" alt="QR Code">
                 </div>
-                <div class="ticket-code">${ticket.codice}</div>
+                <div class="ticket-code">${ticket.qrCode ?? ""}</div>
             </div>
         </div>
     `;
 }
 
-function renderTickets() {
-    ticketsContainer.innerHTML = tickets.map(createTicketCard).join("");
+async function loadMyTickets() {
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch("/tickets/my", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Errore nel recupero dei biglietti");
+        }
+
+        const tickets = await response.json();
+
+        if (!tickets.length) {
+            ticketsContainer.innerHTML = `
+                <div class="ticket-card">
+                    <div class="ticket-left">
+                        <div class="ticket-title">Nessun biglietto acquistato</div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        ticketsContainer.innerHTML = tickets.map(createTicketCard).join("");
+    } catch (error) {
+        ticketsContainer.innerHTML = `
+            <div class="ticket-card">
+                <div class="ticket-left">
+                    <div class="ticket-title">Impossibile caricare i biglietti</div>
+                </div>
+            </div>
+        `;
+        console.error(error);
+    }
 }
 
-renderTickets();
+loadMyTickets();

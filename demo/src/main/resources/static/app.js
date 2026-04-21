@@ -2,10 +2,10 @@ import { loadEvents, reset, loadAllEvents } from "./events.js";
 import { handleSearch } from "./search.js";
 import { initScroll } from "./scroll.js";
 import { initResize } from "./resize.js";
-import { toggleTheme } from "./utils.js";
 import { state } from "./state.js";
 import { logout } from "./auth.js";
 import { initProfileMenu } from "./profile-menu.js";
+import { toggleTheme, applySavedTheme } from "./utils.js";
 
 /**
  * FUNZIONE PRINCIPALE DI INIZIALIZZAZIONE
@@ -14,6 +14,7 @@ import { initProfileMenu } from "./profile-menu.js";
  * Serve a collegare tutti gli eventi della UI.
  */
 function initApp() {
+  applySavedTheme();
   console.log("DOM pronto");
 
   // form ricerca eventi

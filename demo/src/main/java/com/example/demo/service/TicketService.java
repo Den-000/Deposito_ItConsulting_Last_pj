@@ -115,30 +115,35 @@ public class TicketService {
     }
 
     public List<MyTicketResponse> getMyTickets() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String username = authentication.getName();
 
-        MyUser user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+    MyUser user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
-        return ticketRepository.findByUser(user).stream()
-        .map(ticket -> MyTicketResponse.builder()
-                .id(ticket.getId())
-                .eventName(ticket.getEvent() != null ? ticket.getEvent().getName() : null)
-                .eventDate(ticket.getEvent() != null ? ticket.getEvent().getDate() : null)
-                .eventLocation(
+    List<Ticket> tickets = ticketRepository.findByUser(user);
+
+    return tickets.stream()
+            .map(ticket -> {
+                MyTicketResponse response = new MyTicketResponse();
+                response.setId(ticket.getId());
+                response.setEventName(ticket.getEvent() != null ? ticket.getEvent().getName() : null);
+                response.setEventDate(ticket.getEvent() != null ? ticket.getEvent().getDate() : null);
+                response.setEventLocation(
                         ticket.getEvent() != null && ticket.getEvent().getLocation() != null
                                 ? ticket.getEvent().getLocation().getName()
                                 : null
-                )
-                .ticketType(ticket.getTicketType() != null ? ticket.getTicketType().getName() : null)
-                .price(ticket.getTicketType() != null ? ticket.getTicketType().getPrice() : null)
-                .qrCode(ticket.getQrCode())
-                .valid(ticket.isValid())
-                .checkedIn(ticket.isCheckedIn())
-                .purchaseDate(ticket.getPurchaseDate())
-                .email(ticket.getEmail())
-                .build())
-        .toList();
+                );
+                response.setTicketType(ticket.getTicketType() != null ? ticket.getTicketType().getName() : null);
+                response.setPrice(ticket.getTicketType() != null ? java.math.BigDecimal.valueOf(ticket.getTicketType().getPrice())
+                : null);
+                response.setQrCode(ticket.getQrCode());
+                response.setValid(ticket.isValid());
+                response.setCheckedIn(ticket.isCheckedIn());
+                response.setPurchaseDate(ticket.getPurchaseDate());
+                response.setEmail(ticket.getEmail());
+                return response;
+            })
+            .toList();
     }
 }

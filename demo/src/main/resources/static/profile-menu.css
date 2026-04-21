@@ -1,0 +1,54 @@
+.profile-menu {
+    position: relative;
+    display: inline-block;
+    z-index: 4000;
+}
+
+.profile-btn {
+    width: auto;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.profile-btn:hover {
+    background: var(--primary2);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 180px;
+    background: var(--dropdown-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    z-index: 5000;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px;
+    color: var(--dropdown-text);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.dropdown-menu a:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
