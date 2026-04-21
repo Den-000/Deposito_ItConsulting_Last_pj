@@ -55,13 +55,12 @@ public class SecurityConfig {
                 //
                 // La decisione finale sull'accesso viene fatta da:
                 // .anyRequest().authenticated()
-                .requestMatchers(
-                    "/**/*.html",
-                    "/**/*.js",
-                    "/**/*.css",
-                    "/**/favicon.ico",
-                    "/auth/**"
-                ).permitAll()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/**/*.html", "/**/*.js", "/**/*.css", "/favicon.ico").permitAll()
+
+                // endpoint protetti (richiedono autenticazione)
+                .requestMatchers("/tickets/**").authenticated()
+                .requestMatchers("/events/**").authenticated()
 
                 // qualsiasi altra richiesta richiede autenticazione
                 .anyRequest().authenticated()

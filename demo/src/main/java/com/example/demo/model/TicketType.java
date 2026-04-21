@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
@@ -11,8 +13,8 @@ import lombok.*;
  * Esempi: VIP, STANDARD, EARLY ACCESS
  */
 @Entity
-@Data
 @Table(name = "ticket_types")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketType {

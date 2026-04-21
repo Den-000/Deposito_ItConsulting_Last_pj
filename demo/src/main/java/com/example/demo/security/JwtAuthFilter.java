@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * FILTRO JWT:
@@ -69,7 +70,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 // 4. Estrazione username dal token
                 String username = jwtService.extractUsername(token);
-
+                
                 // 5. Autenticazione solo se non già presente
                 if (username != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -79,11 +80,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                     // 7. Creazione oggetto autenticazione Spring Security
                     UsernamePasswordAuthenticationToken auth =
-                            new UsernamePasswordAuthenticationToken(
-                                    user,
-                                    null,
-                                    user.getAuthorities()
-                            );
+                    new UsernamePasswordAuthenticationToken(
+                            user,
+                            null,
+                            user.getAuthorities()
+                    );
 
                     // 8. Aggiunta dettagli richiesta HTTP
                     auth.setDetails(

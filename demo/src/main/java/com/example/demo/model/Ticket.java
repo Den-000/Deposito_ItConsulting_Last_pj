@@ -65,6 +65,6 @@ public class Ticket {
     /**
      * Pagamento associato al ticket
      */
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL)
     private Payment payment;
 }

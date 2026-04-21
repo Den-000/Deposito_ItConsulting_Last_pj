@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Acquista Biglietto</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="profile-menu.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>EventsManager</h2>
+
+  <div class="nav-item" onclick="window.location.href='home.html'">Eventi</div>
+  <div class="nav-item" onclick="window.location.href='biglietti.html'">I Miei Biglietti</div>
+</div>
+
+<div class="topbar">
+  <div class="topbar-right">
+    <button onclick="toggleTheme()" class="topbar_btn">🌔 Tema</button>
+
+    <div class="profile-menu">
+      <button class="profile-btn" id="profileBtn">
+        👤 <span id="username">Utente</span> ▼
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/profilo.html">Profilo</a>
+        <a href="/biglietti.html">I miei biglietti</a>
+        <a href="#" id="logoutLink">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main" style="grid-template-columns: 1fr;">
+  <div class="card">
+
+    <h2 id="eventName">Caricamento evento...</h2>
+    <p id="ticketName"></p>
+    <h3 id="price"></h3>
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Inserisci email">
+
+    <label>Quantità</label>
+    <input type="number" id="quantity" value="1" min="1">
+
+    <button id="buyBtn">ACQUISTA</button>
+
+    <small id="statusMsg"></small>
+
+  </div>
+</div>
+
+<script type="module" src="bookTicket.js"></script>
+
+</body>
+</html>

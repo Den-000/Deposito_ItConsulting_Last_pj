@@ -101,4 +101,18 @@ public class JwtService {
                 // recupera campo custom "role"
                 .get("role", String.class);
     }
+
+    public boolean isTokenValid(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+    
+            return true;
+    
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
 }

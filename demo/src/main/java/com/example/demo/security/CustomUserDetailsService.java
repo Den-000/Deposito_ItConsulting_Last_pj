@@ -28,9 +28,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // converte in oggetto compatibile con Spring Security
         return User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roles(user.getRole().name())  // Spring aggiunge ROLE_
-                .build();
+        .username(user.getUsername())
+        .password(user.getPassword())
+        .roles(user.getRole().name())
+        .build();
     }
 }

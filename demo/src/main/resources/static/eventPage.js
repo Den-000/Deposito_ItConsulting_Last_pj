@@ -80,7 +80,7 @@ function renderTicketTypes(ticketTypes) {
     `;
 
     div.querySelector(".book-btn").onclick = () => {
-      console.log("Prenota:", t.name);
+      window.location.href = `/bookTicket.html?eventId=${eventId}&ticketTypeId=${t.id}`;
     };
 
     container.appendChild(div);
