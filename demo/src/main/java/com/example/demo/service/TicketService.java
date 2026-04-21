@@ -1,25 +1,31 @@
 package com.example.demo.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.*;
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.dto.CheckInRequest;
+import com.example.demo.dto.MyTicketResponse;
+import com.example.demo.dto.TicketRequest;
+import com.example.demo.dto.TicketResponse;
+import com.example.demo.model.Event;
+import com.example.demo.model.EventStatus;
+import com.example.demo.model.MyUser;
+import com.example.demo.model.Payment;
+import com.example.demo.model.PaymentStatus;
+import com.example.demo.model.Ticket;
+import com.example.demo.model.TicketType;
+import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.MyUserRepository;
+import com.example.demo.repository.PaymentRepository;
+import com.example.demo.repository.TicketRepository;
+import com.example.demo.repository.TicketTypeRepository;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * SERVIZIO PRINCIPALE per la gestione dei BIGLIETTI.
- *
- * Contiene tutta la logica di business:
- * - acquisto biglietti
- * - gestione posti
- * - pagamento simulato
- * - invio email
- * - check-in
- */
 @Service
 @RequiredArgsConstructor
 public class TicketService {
@@ -32,60 +38,41 @@ public class TicketService {
     private final EmailService emailService;
     private final QRCodeService qrCodeService;
 
-    /**
-     * ACQUISTO BIGLIETTO
-     */
     public TicketResponse bookTicket(TicketRequest request) {
-
-        // 1. RECUPERO EVENTO
         Event event = eventRepository.findById(request.getEventId())
                 .orElseThrow(() -> new RuntimeException("Evento non trovato"));
 
-        // controllo stato evento
         if (event.getStatus() != EventStatus.ACTIVE) {
             throw new RuntimeException("Evento non attivo");
         }
 
-        // controllo posti disponibili evento
         if (event.getBookedSeats() >= event.getMaxSeats()) {
             throw new RuntimeException("Evento sold out");
         }
 
-        // 2. RECUPERO TIPO BIGLIETTO
         TicketType type = ticketTypeRepository.findById(request.getTicketTypeId())
                 .orElseThrow(() -> new RuntimeException("Ticket type non trovato"));
 
-        // controllo disponibilità tipo biglietto
         if (type.getAvailableSeats() <= 0) {
             throw new RuntimeException("Biglietti esauriti per questo tipo");
         }
 
-        // 3. RECUPERO UTENTE (opzionale)
         MyUser user = userRepository.findByUsername(request.getEmail())
                 .orElse(null);
 
-        // 4. GENERAZIONE QR CODE
-        String qr = qrCodeService.generate();
-
-        // 5. CREAZIONE TICKET
         Ticket ticket = new Ticket();
         ticket.setEvent(event);
         ticket.setTicketType(type);
-        ticket.setQrCode(qr);
+        ticket.setQrCode(qrCodeService.generate());
         ticket.setUser(user);
-
-        // ATTENZIONE: possibile bug logico (email = username)
-        ticket.setEmail(user.getUsername());
-
+        ticket.setEmail(request.getEmail());
         ticket.setValid(true);
         ticket.setCheckedIn(false);
         ticket.setPurchaseDate(LocalDateTime.now());
 
-        // 6. AGGIORNAMENTO POSTI
         event.setBookedSeats(event.getBookedSeats() + 1);
         type.setAvailableSeats(type.getAvailableSeats() - 1);
 
-        // 7. PAGAMENTO SIMULATO
         Payment payment = new Payment();
         payment.setAmount(type.getPrice());
         payment.setStatus(PaymentStatus.PAID);
@@ -95,16 +82,13 @@ public class TicketService {
         payment.setTicket(ticket);
         ticket.setPayment(payment);
 
-        // 8. SALVATAGGIO SU DB
         ticketRepository.save(ticket);
         paymentRepository.save(payment);
 
-        // 9. INVIO EMAIL
-        emailService.sendTicket(request.getEmail(), qr);
+        emailService.sendTicket(request.getEmail(), ticket.getQrCode());
 
-        // 10. RISPOSTA AL CLIENT
         return TicketResponse.builder()
-                .qrCode(qr)
+                .qrCode(ticket.getQrCode())
                 .eventName(event.getName())
                 .ticketType(type.getName())
                 .price(type.getPrice())
@@ -112,29 +96,49 @@ public class TicketService {
                 .build();
     }
 
-    /**
-     * CHECK-IN BIGLIETTO
-     */
     public void checkIn(CheckInRequest request) {
-
-        // ricerca ticket tramite QR code
         Ticket ticket = ticketRepository.findByQrCode(request.getQrCode())
                 .orElseThrow(() -> new RuntimeException("Ticket non trovato"));
 
-        // verifica validità
         if (!ticket.isValid()) {
             throw new RuntimeException("Ticket non valido");
         }
 
-        // evita doppio ingresso
         if (ticket.isCheckedIn()) {
             throw new RuntimeException("Già usato");
         }
 
-        // marca come usato
         ticket.setCheckedIn(true);
+        ticketRepository.save(ticket);
 
-        // log semplice (debug)
         System.out.println("Check-in effettuato per ticket " + ticket.getId());
+    }
+
+    public List<MyTicketResponse> getMyTickets() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        MyUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+
+        return ticketRepository.findByUser(user).stream()
+        .map(ticket -> MyTicketResponse.builder()
+                .id(ticket.getId())
+                .eventName(ticket.getEvent() != null ? ticket.getEvent().getName() : null)
+                .eventDate(ticket.getEvent() != null ? ticket.getEvent().getDate() : null)
+                .eventLocation(
+                        ticket.getEvent() != null && ticket.getEvent().getLocation() != null
+                                ? ticket.getEvent().getLocation().getName()
+                                : null
+                )
+                .ticketType(ticket.getTicketType() != null ? ticket.getTicketType().getName() : null)
+                .price(ticket.getTicketType() != null ? ticket.getTicketType().getPrice() : null)
+                .qrCode(ticket.getQrCode())
+                .valid(ticket.isValid())
+                .checkedIn(ticket.isCheckedIn())
+                .purchaseDate(ticket.getPurchaseDate())
+                .email(ticket.getEmail())
+                .build())
+        .toList();
     }
 }
