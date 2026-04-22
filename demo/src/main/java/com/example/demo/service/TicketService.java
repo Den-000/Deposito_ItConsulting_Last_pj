@@ -26,6 +26,7 @@ public class TicketService {
     private final TicketTypeRepository ticketTypeRepository;
     private final TicketRepository ticketRepository;
     private final MyUserRepository userRepository;
+    @SuppressWarnings("unused")
     private final EmailService emailService;
     private final QRCodeService qrCodeService;
 
@@ -50,8 +51,11 @@ public class TicketService {
             throw new RuntimeException("Biglietti esauriti per questo tipo");
         }
 
-        MyUser user = userRepository.findByUsername(request.getEmail())
-                .orElse(null);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        MyUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
         // ---------------- TICKET ----------------
         Ticket ticket = new Ticket();
