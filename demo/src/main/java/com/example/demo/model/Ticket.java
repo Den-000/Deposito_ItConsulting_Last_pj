@@ -21,6 +21,10 @@ public class Ticket {
     @GeneratedValue
     private Long id;
 
+    // Nome e cognome dell'acquirente (per biglietti guest)
+    private String firstName;
+    private String lastName;
+
     /**
      * Codice QR univoco del biglietto
      */

@@ -1,16 +1,10 @@
 package com.example.demo.dto;
 
-/**
- * DTO = Data Transfer Object
- *
- * Serve per trasportare dati dal frontend al backend.
- */
 public class AuthRequest {
 
-    private String username; // campo username
-    private String password; // campo password
-
-    // getter necessari per Spring (deserializzazione JSON → Java)
+    private String username;
+    private String password;
+    private String email;
 
     public String getUsername() {
         return username;
@@ -18,5 +12,9 @@ public class AuthRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

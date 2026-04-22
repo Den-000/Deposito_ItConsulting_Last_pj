@@ -47,7 +47,7 @@ public class AuthService {
 
         MyUser user = repo.findByUsername(req.getUsername()).orElseThrow();
 
-        String access = jwtService.generateToken(user.getUsername(), (user.getRole().name()));
+        String access = jwtService.generateToken(user.getUsername(),user.getRole().name(),user.getEmail());
         String refresh = refreshService.createToken(user.getUsername());
 
         return new AuthResponse(access, refresh);
@@ -57,15 +57,11 @@ public class AuthService {
      * REGISTRAZIONE
      */
     public void register(AuthRequest req) {
-
         MyUser u = new MyUser();
         u.setUsername(req.getUsername());
-
-        // password sempre hashata
+        u.setEmail(req.getEmail());
         u.setPassword(encoder.encode(req.getPassword()));
-
         u.setRole(Role.USER);
-
         repo.save(u);
     }
 

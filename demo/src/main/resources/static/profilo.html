@@ -21,7 +21,7 @@
 
   <h4>Check-In</h4>
   <input type="text" placeholder="Inserisci qr code">
-  <button>Effettua Check-In</button>
+  <button type="button">Effettua Check-In</button>
 </div>
 
 <div class="topbar">
@@ -32,7 +32,7 @@
 
     <div class="profile-menu">
       <button type="button" class="profile-btn" onclick="toggleMenu()">
-        👤 <span id="username">Utente</span> ▼
+        👤 <span class="profile-name hidden-until-loaded"></span> ▼
       </button>
 
       <div class="dropdown-menu" id="dropdownMenu">
@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<div class="main" style="grid-template-columns: 1fr;">
+<div class="profile-main">
   <div class="card profile-card">
 
     <h2>Profilo Utente</h2>
@@ -74,11 +74,11 @@
     </div>
 
     <div class="profile-field">
-        <label>Password</label>
-        <div class="password-row">
-            <input type="password" id="p_password" value="" readonly>
-            <button type="button" id="togglePassword">👁</button>
-        </div>
+      <label>Password</label>
+      <div class="password-row">
+        <input type="password" id="p_password" value="" readonly>
+        <button type="button" id="togglePassword">👁</button>
+      </div>
     </div>
   </div>
 </div>

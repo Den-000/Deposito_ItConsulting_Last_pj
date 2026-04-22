@@ -71,7 +71,9 @@ public class TicketService {
         ticket.setTicketType(type);
         ticket.setQrCode(qrCodeService.generate());
         ticket.setUser(user);
-        ticket.setEmail(user.getEmail());
+        ticket.setFirstName(request.getFirstName());
+        ticket.setLastName(request.getLastName());
+        ticket.setEmail(request.getEmail());
         ticket.setValid(true);
         ticket.setCheckedIn(false);
         ticket.setPurchaseDate(LocalDateTime.now());
@@ -146,6 +148,8 @@ public class TicketService {
                     r.setCheckedIn(ticket.isCheckedIn());
                     r.setPurchaseDate(ticket.getPurchaseDate());
                     r.setEmail(ticket.getEmail());
+                    r.setFirstName(ticket.getFirstName());
+                    r.setLastName(ticket.getLastName());
                     return r;
                 })
                 .toList();

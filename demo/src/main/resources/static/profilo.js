@@ -64,7 +64,7 @@ async function loadUserProfile() {
 
         const user = await response.json()
 
-        const usernameTopbar = document.getElementById("username")
+        const usernameTopbar = document.querySelector(".profile-name")
         const username = document.getElementById("p_username")
         const name = document.getElementById("p_name")
         const surname = document.getElementById("p_surname")
@@ -72,7 +72,10 @@ async function loadUserProfile() {
         const phone = document.getElementById("p_phone")
         const password = document.getElementById("p_password")
 
-        if (usernameTopbar) usernameTopbar.textContent = user.username ?? ""
+        if (usernameTopbar) {
+            usernameTopbar.textContent = user.username ?? ""
+            usernameTopbar.classList.remove("hidden-until-loaded")
+        }
         if (username) username.textContent = user.username ?? ""
         if (name) name.textContent = user.name ?? ""
         if (surname) surname.textContent = user.surname ?? ""

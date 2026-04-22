@@ -4,17 +4,22 @@
     z-index: 4000;
 }
 
+/* Bottone profilo */
 .profile-btn {
-    width: auto;
     background: var(--primary);
     color: white;
     border: none;
     padding: 10px 14px;
     border-radius: 10px;
     cursor: pointer;
-    display: inline-flex;
+
+    display: flex;
     align-items: center;
     gap: 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+
     transition: 0.2s;
 }
 
@@ -22,25 +27,38 @@
     background: var(--primary2);
 }
 
+/* Nome utente */
+.profile-name {
+    white-space: nowrap;
+}
+
+/* Dropdown */
 .dropdown-menu {
     display: none;
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
+
     min-width: 180px;
     background: var(--dropdown-bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-radius: 12px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+
     z-index: 5000;
 }
 
+/* Link nel menu */
 .dropdown-menu a {
     display: block;
-    padding: 12px;
+    padding: 12px 14px;
     color: var(--dropdown-text);
     text-decoration: none;
+
+    font-size: 14px;
+
     transition: 0.2s;
 }
 
@@ -49,6 +67,7 @@
     color: white;
 }
 
+/* Stato attivo */
 .dropdown-menu.show {
     display: block;
 }

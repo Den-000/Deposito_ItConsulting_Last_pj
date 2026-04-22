@@ -1,46 +1,85 @@
 export function getPageSize() {
   const width = window.innerWidth;
 
-  // adattamento responsive
   if (width < 600) return 6;
   if (width < 1000) return 12;
   return 24;
 }
 
-/**
- * FORMATTAZIONE DATA leggibile
- */
 export function formatDate(date) {
-  return new Date(date).toLocaleString();
+  return new Date(date).toLocaleString("it-IT", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }
 
-/**
- * RENDER EVENTI NEL DOM
- */
+function getStatusBadge(status) {
+  const value = (status || "").toString().toUpperCase();
+
+  if (value === "ACTIVE") {
+    return "medium";
+  }
+
+  if (value === "COMPLETED") {
+    return "low";
+  }
+
+  return "medium";
+}
+
+function getEventImage(eventName) {
+  const name = (eventName || "").toLowerCase();
+
+  if (name.includes("concerto") || name.includes("rock") || name.includes("live")) {
+    return "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop";
+  }
+
+  if (name.includes("teatro") || name.includes("spettacolo")) {
+    return "https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=1200&auto=format&fit=crop";
+  }
+
+  return "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop";
+}
+
 export function render(events) {
   const container = document.getElementById("main");
 
   events.forEach(e => {
     const div = document.createElement("div");
-    div.classList.add("card");
+    div.classList.add("card", "event-card");
+
+    const imageUrl = getEventImage(e.name);
+    const badgeClass = getStatusBadge(e.status);
 
     div.innerHTML = `
-      <div class="card-header">
-        <small>${formatDate(e.date)}</small>
-        <small>${e.location.name + ", " + e.location.city}</small>
+      <div class="event-card-body">
+        <h3 class="event-title">${e.name}</h3>
       </div>
-      <h3>${e.name}</h3>
-      <div class="card-footer">
-      <div><button class="ticket-btn">BIGLIETTI</button></div>
-      
-      
-      <div class="badge medium">${e.status}</div>
+
+      <div class="event-card-image">
+        <img src="${imageUrl}" alt="${e.name}">
+      </div>
+
+      <div class="event-card-meta under">
+        <div class="event-meta-item">
+          <small>${formatDate(e.date)}</small>
+        </div>
+        <div class="event-meta-item">
+          <small>${e.location.name}, ${e.location.city}</small>
+        </div>
+      </div>
+
+      <div class="card-footer event-card-footer">
+        <button class="ticket-btn">BIGLIETTI</button>
+        <div class="badge ${badgeClass}">${e.status}</div>
       </div>
     `;
-// TODO Cambiare da e.status a rapporto fra posti occupati e posti totali, con badge verde se < 50%, giallo se tra 50% e 80%, rosso se > 80%
 
     container.appendChild(div);
-    
+
     const btn = div.querySelector(".ticket-btn");
 
     btn.onclick = () => {
@@ -49,9 +88,6 @@ export function render(events) {
   });
 }
 
-/**
- * PULIZIA INTERFACCIA
- */
 export function clearUI() {
   document.getElementById("main").innerHTML = "";
 }
