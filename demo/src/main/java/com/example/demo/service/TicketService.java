@@ -72,7 +72,7 @@ public class TicketService {
         event.setBookedSeats(event.getBookedSeats() + 1);
         type.setAvailableSeats(type.getAvailableSeats() - 1);
 
-        // ---------------- PAYMENT  CASCADE) ----------------
+        // ---------------- PAYMENT  (CASCADE) ----------------
         Payment payment = new Payment();
         payment.setAmount(type.getPrice());
         payment.setStatus(PaymentStatus.PAID);

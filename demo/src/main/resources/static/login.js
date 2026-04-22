@@ -1,49 +1,46 @@
+import { getUserRole } from "./auth.js";
+
 const API = "http://localhost:8081";
 // endpoint backend
 
 async function login() {
   try {
-
-    // prende valori input HTML
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    // chiamata HTTP POST al backend
     const res = await fetch(`${API}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-
-      // body inviato al backend in formato JSON
       body: JSON.stringify({ username, password })
     });
 
-    // converte risposta backend in JSON
     const data = await res.json();
 
-    console.log("LOGIN RESPONSE:", data);
-    // per debug
-
-    // se login OK ed access token presente
     if (res.ok && data.access) {
-
-      // salva JWT nel browser
       localStorage.setItem("token", data.access);
 
-      // redirect alla home
-      window.location.href = "home.html";
+      const role = getUserRole();
+
+      if (role === "ADMIN") {
+        window.location.href = "admin.html";
+      } else {
+        window.location.href = "home.html";
+      }
+
     } else {
-      // login fallito
       alert("Login fallito");
     }
 
   } catch (err) {
-    // errore rete/server
     console.error(err);
-    alert("Errore di rete e/o server");
+    alert("Errore server");
   }
 }
+
+// 👇 collega il bottone
+document.getElementById("loginBtn").addEventListener("click", login);
 
 async function register() {
 
@@ -76,4 +73,4 @@ async function register() {
 
   // ritorno al login
   window.location.href = "login.html";
-}
+}ì

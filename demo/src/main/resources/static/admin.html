@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+
+  <link rel="stylesheet" href="adminPage.css">
+  <link rel="stylesheet" href="/profile-menu.css">
+  <link rel="icon" href="data:,">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>EventsManager</h2>
+
+  <div id="navEventsBtn" class="nav-item">Eventi</div>
+  <div class="nav-item" onclick="window.location.href='/biglietti.html'">
+    I Miei Biglietti
+  </div>
+
+  <hr style="margin:10px 0">
+
+  <h4>Check-In</h4>
+  <input type="text" placeholder="Inserisci qr code">
+  <button>Effettua Check-In</button>
+
+  <hr style="margin:10px 0">
+
+  <h4>Admin</h4>
+  <div class="nav-item active">Dashboard Admin</div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <form id="searchForm" class="search-form">
+    <input id="searchInput" type="text" class="search" placeholder="Cerca evento">
+
+    <button type="submit" class="topbar_btn">
+      🔍 Cerca
+    </button>
+  </form>
+
+  <div class="topbar-right">
+    <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
+
+    <div class="profile-menu">
+      <button type="button" class="profile-btn" onclick="toggleMenu()">
+        👤 <span id="username">Admin</span> ▼
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/profilo.html">Profilo</a>
+        <a href="/biglietti.html">I miei biglietti</a>
+        <a href="#" id="topBarBtn">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" class="admin-panel" style="display:none;">
+    <!-- riempito da JS -->
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script type="module" src="adminPage.js"></script>
+<script type="module" src="profilo.js"></script>
+
+</body>
+</html>

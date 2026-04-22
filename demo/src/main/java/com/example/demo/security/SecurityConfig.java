@@ -57,10 +57,14 @@ public class SecurityConfig {
                 // .anyRequest().authenticated()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/**/*.html", "/**/*.js", "/**/*.css", "/favicon.ico").permitAll()
+                .requestMatchers("/error").permitAll()
 
                 // endpoint protetti (richiedono autenticazione)
                 .requestMatchers("/tickets/**").authenticated()
                 .requestMatchers("/events/**").authenticated()
+
+                // endpoint riservati ad amministratori (richiedono ruolo ADMIN)
+                .requestMatchers("/admin/**").hasRole("ADMIN")
 
                 // qualsiasi altra richiesta richiede autenticazione
                 .anyRequest().authenticated()
