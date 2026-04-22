@@ -22,7 +22,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     /**
      * Trova tutti i biglietti di un utente.
      */
+
+    //
     List<Ticket> findByUser(MyUser user);
+
+    List<Ticket> findByUser_Email(String email);
 
     /**
      * Trova un biglietto tramite QR code.
@@ -38,4 +42,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
      * Conta i biglietti già usati (check-in effettuato).
      */
     long countByEventIdAndCheckedInTrue(Long eventId);
+
+    /**
+     * Trova tutti i biglietti di un utente ordinati per data evento (più recenti prima).
+     */
+    List<Ticket> findByUserOrderByEvent_DateDesc(MyUser user);
 }

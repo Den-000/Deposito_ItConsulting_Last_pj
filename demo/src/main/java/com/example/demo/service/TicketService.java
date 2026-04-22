@@ -13,8 +13,17 @@ import com.example.demo.dto.CheckInRequest;
 import com.example.demo.dto.MyTicketResponse;
 import com.example.demo.dto.TicketRequest;
 import com.example.demo.dto.TicketResponse;
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.Event;
+import com.example.demo.model.EventStatus;
+import com.example.demo.model.MyUser;
+import com.example.demo.model.Payment;
+import com.example.demo.model.PaymentStatus;
+import com.example.demo.model.Ticket;
+import com.example.demo.model.TicketType;
+import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.MyUserRepository;
+import com.example.demo.repository.TicketRepository;
+import com.example.demo.repository.TicketTypeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +41,6 @@ public class TicketService {
 
     @Transactional
     public TicketResponse bookTicket(TicketRequest request) {
-
         Event event = eventRepository.findById(request.getEventId())
                 .orElseThrow(() -> new RuntimeException("Evento non trovato"));
 
@@ -57,38 +65,29 @@ public class TicketService {
         MyUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
-        // ---------------- TICKET ----------------
         Ticket ticket = new Ticket();
         ticket.setEvent(event);
         ticket.setTicketType(type);
         ticket.setQrCode(qrCodeService.generate());
         ticket.setUser(user);
-        ticket.setEmail(request.getEmail());
+        ticket.setEmail(user.getEmail());
         ticket.setValid(true);
         ticket.setCheckedIn(false);
         ticket.setPurchaseDate(LocalDateTime.now());
 
-        // aggiorna disponibilità
         event.setBookedSeats(event.getBookedSeats() + 1);
         type.setAvailableSeats(type.getAvailableSeats() - 1);
 
-        // ---------------- PAYMENT  CASCADE) ----------------
         Payment payment = new Payment();
         payment.setAmount(type.getPrice());
         payment.setStatus(PaymentStatus.PAID);
         payment.setMethod("CARD");
         payment.setPaymentDate(LocalDateTime.now());
 
-        // relazione bidirezionale
         payment.setTicket(ticket);
         ticket.setPayment(payment);
 
-        // ---------------- SALVATAGGIO ----------------
-        // SOLO ticket (payment viene salvato via cascade)
         Ticket saved = ticketRepository.save(ticket);
-
-        // email opzionale
-        // emailService.sendTicket(request.getEmail(), saved.getQrCode());
 
         return TicketResponse.builder()
                 .qrCode(saved.getQrCode())
@@ -100,7 +99,6 @@ public class TicketService {
     }
 
     public void checkIn(CheckInRequest request) {
-
         Ticket ticket = ticketRepository.findByQrCode(request.getQrCode())
                 .orElseThrow(() -> new RuntimeException("Ticket non trovato"));
 
@@ -119,14 +117,15 @@ public class TicketService {
     }
 
     public List<MyTicketResponse> getMyTickets() {
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
+
+        System.out.println("AUTH NAME: " + username);
 
         MyUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
-        return ticketRepository.findByUser(user).stream()
+        return ticketRepository.findByUserOrderByEvent_DateDesc(user).stream()
                 .map(ticket -> {
                     MyTicketResponse r = new MyTicketResponse();
                     r.setId(ticket.getId());
