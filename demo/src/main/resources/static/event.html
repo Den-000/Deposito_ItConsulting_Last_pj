@@ -52,29 +52,43 @@
 </div>
 
 <!-- MAIN -->
-<div class="main" style="grid-template-columns: 1fr;">
+<div class="main event-main">
 
-  <div class="card">
-
-    <div class="card-header">
-      <small id="date"></small>
-      <small id="location"></small>
+  <section class="event-hero-card">
+    <div class="event-hero-image">
+      <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop" alt="Immagine evento">
     </div>
 
-    <h2 id="name">Caricamento...</h2>
+    <div class="event-hero-main">
+      <div class="event-date-row">
+        <span id="date"></span>
+      </div>
 
-    <p id="description"></p>
+      <h1 id="name">Caricamento...</h1>
 
-    <div class="badge medium" id="seats"></div>
+      <p id="description"></p>
 
-    <small id="status"></small>
-
-    <div class="tickets">
-      <h3>Biglietti disponibili</h3>
-      <div id="ticketsList"></div>
+      <div class="event-badges">
+        <div class="badge medium" id="seats"></div>
+        <small class="event-status" id="status"></small>
+      </div>
     </div>
 
-  </div>
+    <div class="event-hero-location">
+      <h3>Dove</h3>
+      <p id="location"></p>
+    </div>
+  </section>
+
+  <section class="tickets-section">
+    <div class="tickets-section-header">
+      <div class="tickets-icon">🎟</div>
+      <h2>Biglietti disponibili</h2>
+      <p>Scegli il tipo di biglietto che preferisci</p>
+    </div>
+
+    <div id="ticketsList"></div>
+  </section>
 
 </div>
 

@@ -49,10 +49,13 @@ function renderEvent(event) {
 
   document.getElementById("date").textContent = formatDate(event.date);
 
-  document.getElementById("location").textContent =
-    `${event.location?.address || ""}, ${event.location?.name || ""}, ${event.location?.city || ""}`;
+  document.getElementById("location").textContent = [
+  event.location?.address,
+  event.location?.name,
+  event.location?.city
+].filter(Boolean).join(", ");
 
-  document.getElementById("seats").textContent = `${event.bookedSeats}/${event.maxSeats}`;
+  document.getElementById("seats").textContent = `Posti occupati: ${event.bookedSeats}/${event.maxSeats}`;
 
   document.getElementById("status").textContent = event.status || "";
 
@@ -65,21 +68,21 @@ function renderTicketTypes(ticketTypes) {
 
   ticketTypes.forEach(t => {
     const div = document.createElement("div");
-    div.className = "card";
+    div.className = "ticket-card";
+
+    const icon = t.name?.toLowerCase().includes("vip") ? "👑" : "⭐";
 
     div.innerHTML = `
-      <div>
-        <strong>${t.name}</strong>
-        €${t.price}
-      </div>
-      <p>Aggiungere descrizione del pacchetto</p>
-      <div>
-        Disponibili: ${t.availableSeats}
-      </div>
-      <button class="book-btn">PRENOTA</button>
+      <div class="ticket-icon">${icon}</div>
+      <h3>${t.name}</h3>
+      <div class="ticket-price">€${Number(t.price).toFixed(2)}</div>
+      <div class="ticket-divider"></div>
+      <p class="ticket-description">Aggiungere descrizione del pacchetto</p>
+      <div class="ticket-availability">Disponibili: <span>${t.availableSeats}</span></div>
+      <button class="ticket-button">PRENOTA</button>
     `;
 
-    div.querySelector(".book-btn").onclick = () => {
+    div.querySelector(".ticket-button").onclick = () => {
       window.location.href = `/bookTicket.html?eventId=${eventId}&ticketTypeId=${t.id}`;
     };
 

@@ -37,19 +37,69 @@
 </div>
 
 <div class="main" style="grid-template-columns: 1fr;">
-  <div class="card">
+  <div class="card booking-card">
 
-    <h2 id="eventName">Caricamento evento...</h2>
-    <p id="ticketName"></p>
-    <h3 id="price"></h3>
+    <div class="booking-header">
+      <h2 id="eventName">Caricamento evento...</h2>
+      <p id="ticketName"></p>
+      <h3 id="price"></h3>
+    </div>
 
-    <label>Email</label>
-    <input type="email" id="email" placeholder="Inserisci email">
+    <div class="step-indicator">
+      <div class="step-badge active" id="stepBadge1">1</div>
+      <div class="step-line"></div>
+      <div class="step-badge" id="stepBadge2">2</div>
+    </div>
 
-    <label>Quantità</label>
-    <input type="number" id="quantity" value="1" min="1">
+    <div class="step-labels">
+      <span>Dati intestatario</span>
+      <span>Pagamento</span>
+    </div>
 
-    <button id="buyBtn">ACQUISTA</button>
+    <div id="step1" class="form-step active">
+      <h3 class="step-title">Dati intestatario</h3>
+
+      <label>Nome</label>
+      <input type="text" id="firstName" placeholder="Inserisci nome">
+
+      <label>Cognome</label>
+      <input type="text" id="lastName" placeholder="Inserisci cognome">
+
+      <label>Email</label>
+      <div class="email-row">
+        <input type="email" id="email" placeholder="Inserisci email">
+        <button type="button" id="autofillEmailBtn" class="secondary-btn autofill-btn">Usa email account</button>
+      </div>
+
+      <button id="nextBtn">Avanti</button>
+    </div>
+
+    <div id="step2" class="form-step">
+      <h3 class="step-title">Dati pagamento</h3>
+
+      <label>Intestatario carta</label>
+      <input type="text" id="cardName" placeholder="Nome sulla carta">
+
+      <label>Numero carta</label>
+      <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+
+      <div class="payment-row">
+        <div class="payment-field">
+          <label>Scadenza</label>
+          <input type="text" id="expiry" placeholder="MM/AA" maxlength="5">
+        </div>
+
+        <div class="payment-field">
+          <label>CVV</label>
+          <input type="text" id="cvv" placeholder="123" maxlength="4">
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button type="button" id="backBtn" class="secondary-btn">Indietro</button>
+        <button type="button" id="buyBtn">Conferma pagamento</button>
+      </div>
+    </div>
 
     <small id="statusMsg"></small>
 

@@ -1,6 +1,3 @@
-/* =========================
-   VARIABILI GLOBALI (TEMA DARK DI DEFAULT)
-   ========================= */
 :root {
   --primary: #4f46e5;
   --primary2: #3b82f6;
@@ -13,9 +10,6 @@
   --dropdown-text: #e5e7eb;
 }
 
-/* =========================
-   TEMA LIGHT (ATTIVATO CON data-theme="light")
-   ========================= */
 [data-theme="light"] {
   --bg: #f8fafc;
   --text: #0f172a;
@@ -25,9 +19,6 @@
   --dropdown-text: #0f172a;
 }
 
-/* =========================
-   RESET CSS BASE
-   ========================= */
 * {
   margin: 0;
   padding: 0;
@@ -35,18 +26,12 @@
   font-family: system-ui, Inter, sans-serif;
 }
 
-/* =========================
-   BODY PRINCIPALE
-   ========================= */
 body {
   background: var(--bg);
   color: var(--text);
   display: flex;
 }
 
-/* =========================
-   SIDEBAR
-   ========================= */
 .sidebar {
   width: 260px;
   height: 100vh;
@@ -74,9 +59,6 @@ body {
   background: var(--card);
 }
 
-/* =========================
-   TOPBAR
-   ========================= */
 .topbar {
   position: fixed;
   left: 260px;
@@ -122,9 +104,6 @@ body {
   width: auto;
 }
 
-/* =========================
-   AREA PRINCIPALE
-   ========================= */
 .main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -147,9 +126,6 @@ body {
   }
 }
 
-/* =========================
-   CARD EVENTI
-   ========================= */
 .card {
   background: var(--card);
   padding: 15px;
@@ -197,9 +173,6 @@ body {
   margin-left: auto;
 }
 
-/* =========================
-   EVENTO NON DISPONIBILE
-   ========================= */
 .event {
   padding: 10px;
   margin: 10px 0;
@@ -215,9 +188,6 @@ body {
   text-decoration: line-through;
 }
 
-/* =========================
-   BADGE PRIORITÀ
-   ========================= */
 .badge {
   font-size: 10px;
   padding: 3px 6px;
@@ -228,9 +198,6 @@ body {
 .medium { background: #f59e0b; }
 .low { background: #22c55e; }
 
-/* =========================
-   AUTH (LOGIN / REGISTER)
-   ========================= */
 .auth-container {
   width: 100%;
   height: 100vh;
@@ -271,9 +238,6 @@ button:hover {
   background: var(--primary2);
 }
 
-/* =========================
-   ADMIN PANEL
-   ========================= */
 .admin-panel {
   margin-top: 20px;
   padding: 15px;
@@ -281,9 +245,6 @@ button:hover {
   background: var(--card);
 }
 
-/* =========================
-   PROFILE PANEL
-   ========================= */
 .profile-card {
   max-width: 850px;
   width: 100%;
@@ -340,4 +301,157 @@ button:hover {
 .password-row button {
   width: auto;
   padding: 10px 14px;
+}
+
+.booking-card {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 28px;
+  align-items: stretch;
+  gap: 18px;
+}
+
+.booking-header {
+  text-align: center;
+}
+
+.booking-header h2 {
+  margin-bottom: 8px;
+}
+
+.booking-header p {
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.booking-header h3 {
+  font-size: 1.5rem;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.step-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.step-badge.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.step-line {
+  width: 60px;
+  height: 2px;
+  background: var(--border);
+}
+
+.step-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: -4px;
+}
+
+.form-step {
+  display: none;
+  flex-direction: column;
+}
+
+.form-step.active {
+  display: flex;
+}
+
+.step-title {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.email-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.email-row input {
+  margin: 8px 0;
+}
+
+.autofill-btn {
+  width: auto;
+  min-width: 150px;
+  white-space: nowrap;
+}
+
+.payment-row {
+  display: flex;
+  gap: 12px;
+}
+
+.payment-field {
+  flex: 1;
+}
+
+.step-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.secondary-btn:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+#statusMsg {
+  text-align: center;
+  min-height: 20px;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .booking-card {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .payment-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step-actions {
+    flex-direction: column;
+  }
+
+  .email-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .autofill-btn {
+    width: 100%;
+  }
 }
