@@ -33,8 +33,14 @@
 
    <div class="profile-menu">
   <button type="button" class="profile-btn" onclick="toggleMenu()">
-    👤 <span id="username">Utente</span> ▼
+    👤 <span class="profile-name">Utente</span> ▼
   </button>
+
+  <div class="dropdown-menu" id="dropdownMenu">
+    <a href="/profilo.html">Profilo</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</div>
 
   <div class="dropdown-menu" id="dropdownMenu">
     <a href="/profilo.html">Profilo</a>

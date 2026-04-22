@@ -24,4 +24,10 @@ public class TicketRequest {
      * Email dell'acquirente.
      */
     private String email;
+
+    /**
+     * Nome e cognome dell'acquirente (per biglietti guest).
+     */
+    private String firstName;
+    private String lastName;
 }

@@ -32,7 +32,7 @@
 
     <div class="profile-menu">
       <button type="button" class="profile-btn" onclick="toggleMenu()">
-        👤 <span id="username">Utente</span> ▼
+        👤 <span class="profile-name hidden-until-loaded"></span> ▼
       </button>
 
       <div class="dropdown-menu" id="dropdownMenu">
@@ -74,11 +74,11 @@
     </div>
 
     <div class="profile-field">
-        <label>Password</label>
-        <div class="password-row">
-            <input type="password" id="p_password" value="" readonly>
-            <button type="button" id="togglePassword">👁</button>
-        </div>
+      <label>Password</label>
+      <div class="password-row">
+        <input type="password" id="p_password" value="" readonly>
+        <button type="button" id="togglePassword">👁</button>
+      </div>
     </div>
   </div>
 </div>

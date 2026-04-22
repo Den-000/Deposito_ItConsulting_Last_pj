@@ -28,39 +28,61 @@ function createTicketCard(ticket) {
                 </div>
 
                 <div class="ticket-details">
-                    <div class="ticket-detail">
-                        <div class="ticket-detail-label">Data evento</div>
-                        <div class="ticket-detail-value">${formatDate(ticket.eventDate)}</div>
-                    </div>
 
+                    <!-- RIGA 1 -->
                     <div class="ticket-detail">
-                        <div class="ticket-detail-label">Luogo</div>
-                        <div class="ticket-detail-value">${ticket.eventLocation ?? "Dato non disponibile"}</div>
-                    </div>
-
-                    <div class="ticket-detail">
-                        <div class="ticket-detail-label">Tipo biglietto</div>
-                        <div class="ticket-detail-value">${ticket.ticketType ?? "Dato non disponibile"}</div>
-                    </div>
-
-                    <div class="ticket-detail">
-                        <div class="ticket-detail-label">Costo</div>
-                        <div class="ticket-detail-value">${ticket.price != null ? ticket.price + " €" : "Dato non disponibile"}</div>
+                        <div class="ticket-detail-label">Intestatario</div>
+                        <div class="ticket-detail-value">
+                            ${[ticket.firstName, ticket.lastName].filter(Boolean).join(" ") || "Dato non disponibile"}
+                        </div>
                     </div>
 
                     <div class="ticket-detail">
                         <div class="ticket-detail-label">Email acquisto</div>
-                        <div class="ticket-detail-value">${ticket.email ?? "Dato non disponibile"}</div>
+                        <div class="ticket-detail-value">
+                            ${ticket.email ?? "Dato non disponibile"}
+                        </div>
+                    </div>
+
+                    <!-- RIGA 2 -->
+                    <div class="ticket-detail">
+                        <div class="ticket-detail-label">Data evento</div>
+                        <div class="ticket-detail-value">
+                            ${formatDate(ticket.eventDate)}
+                        </div>
                     </div>
 
                     <div class="ticket-detail">
-                        <div class="ticket-detail-label">Data acquisto</div>
-                        <div class="ticket-detail-value">${formatDate(ticket.purchaseDate)}</div>
+                        <div class="ticket-detail-label">Luogo</div>
+                        <div class="ticket-detail-value">
+                            ${ticket.eventLocation ?? "Dato non disponibile"}
+                        </div>
                     </div>
 
-                    <div class="ticket-detail">
-                        <div class="ticket-detail-label">Codice biglietto</div>
-                        <div class="ticket-detail-value">${ticket.qrCode ?? "Dato non disponibile"}</div>
+                    <!-- RIGA 3 -->
+                    <div style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px;">
+
+                        <div class="ticket-detail" style="min-width: 0;">
+                            <div class="ticket-detail-label">Tipo biglietto</div>
+                            <div class="ticket-detail-value">
+                                ${ticket.ticketType ?? "Dato non disponibile"}
+                            </div>
+                        </div>
+
+                        <div class="ticket-detail" style="min-width: 0;">
+                            <div class="ticket-detail-label">Costo</div>
+                            <div class="ticket-detail-value">
+                                ${ticket.price != null ? ticket.price + " €" : "Dato non disponibile"}
+                            </div>
+                        </div>
+
+                        <div class="ticket-detail" style="min-width: 0;">
+                            <div class="ticket-detail-label">Data acquisto</div>
+                            <div class="ticket-detail-value">
+                                ${formatDate(ticket.purchaseDate)}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

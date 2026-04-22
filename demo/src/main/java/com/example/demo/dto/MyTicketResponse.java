@@ -25,4 +25,6 @@ public class MyTicketResponse {
     private boolean checkedIn;
     private LocalDateTime purchaseDate;
     private String email;
+    private String firstName;
+    private String lastName;
 }

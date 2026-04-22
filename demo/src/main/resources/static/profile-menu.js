@@ -1,4 +1,22 @@
 export function initProfileMenu() {
+    const profileName = document.querySelector(".profile-name");
+    const token = localStorage.getItem("token");
+
+    if (profileName) {
+        if (token) {
+            try {
+                const payload = JSON.parse(atob(token.split(".")[1]));
+                profileName.textContent = payload.username || payload.sub || "";
+            } catch (e) {
+                profileName.textContent = "";
+            }
+        } else {
+            profileName.textContent = "";
+        }
+
+        profileName.classList.remove("hidden-until-loaded");
+    }
+
     window.toggleMenu = function () {
         const dropdownMenu = document.getElementById("dropdownMenu");
         if (dropdownMenu) {

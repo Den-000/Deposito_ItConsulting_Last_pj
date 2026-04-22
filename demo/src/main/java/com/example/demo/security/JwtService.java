@@ -32,7 +32,7 @@ public class JwtService {
      * @param role → ruolo (USER, ADMIN, ecc.)
      * @return stringa JWT firmata
      */
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, String role, String email){
 
         return Jwts.builder()
 
@@ -41,6 +41,9 @@ public class JwtService {
 
                 // aggiunge informazioni personalizzate dentro il token (payload)
                 .claim("role", role)
+
+                //
+                .claim("email", email)
 
                 // data di creazione token
                 .setIssuedAt(new Date())

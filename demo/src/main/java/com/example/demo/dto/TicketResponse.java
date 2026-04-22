@@ -36,4 +36,10 @@ public class TicketResponse {
      * Indica se il biglietto è valido.
      */
     private boolean valid;
+
+    /**
+     * Nome e cognome dell'acquirente (per biglietti guest).
+     */
+    private String firstName;
+    private String lastName;
 }

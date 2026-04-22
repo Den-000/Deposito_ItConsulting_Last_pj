@@ -44,9 +44,10 @@ public class Ticket {
      */
     private String email;
 
-    /**
-     * Utente proprietario del ticket
-     */
+    // Nome e cognome dell'acquirente (per biglietti guest)
+    private String firstName;
+    private String lastName;
+
     @ManyToOne
     private MyUser user;
 
