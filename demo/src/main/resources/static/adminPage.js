@@ -3,6 +3,7 @@ import { handleSearch } from "./search.js";
 import { logout, getUserRole } from "./auth.js";
 import { initProfileMenu } from "./profile-menu.js";
 import { toggleTheme, applySavedTheme } from "./utils.js";
+import { highlightSidebar } from "./ui.js";
 
 /**
  * INIT ADMIN APP
@@ -52,7 +53,7 @@ function initApp() {
 /**
  * ADMIN PANEL
  */
-function loadAdminPanel() {
+async function loadAdminPanel() {
   const panel = document.getElementById("adminPanel");
 
   if (!panel) {
@@ -62,43 +63,67 @@ function loadAdminPanel() {
 
   panel.style.display = "flex";
 
-  panel.innerHTML = `
-    <h3>📊 ADMIN PANEL</h3>
+  // E' stato rimosso "Utenti attivi" vista la scadenza a breve termine del progetto
+  // Volendo si potrebbe aggiungere Node.js + Socket.io backend, o far affidamento a Firebase
+  // In alternativa si potrebbe creare un metodo che, ad intervallo di tot secondi, pinghi se l'utente è attivo o meno, ed aggiorna (ma non sarebbe realtime)
+  try {
+    // chiamata al backend (endpoint)
+    const res = await fetch("/admin/stats", {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    });
+    const data = await res.json();
 
-    <p>👥 Utenti totali: <strong>120</strong></p>
-    <p>✅ Attivi: <strong>98</strong></p>
-    <p>🛡️ Admin: <strong>5</strong></p>
+    const { totalUsers, totalAdmins } = data;
 
-    <h4>Gestione utenti</h4>
+    panel.innerHTML = `
+      <h3>📊 ADMIN PANEL</h3>
 
-    <input id="userInput" placeholder="Username">
+      <p>👥 Utenti totali: <strong>${totalUsers}</strong></p>
+      <p>🛡️ Admin: <strong>${totalAdmins}</strong></p>
 
-    <div style="margin-top:10px;">
-      <button id="btnPromote">Promuovi Admin</button>
-      <button id="btnBan">Banna Utente</button>
-    </div>
-  `;
+      <h4>Gestione utenti</h4>
 
-  // eventi
-  document.getElementById("btnPromote").addEventListener("click", promoteUser);
-  document.getElementById("btnBan").addEventListener("click", banUser);
+      <input id="userInput" placeholder="Email">
+
+      <div style="margin-top:10px;">
+        <button id="btnPromote">Promuovi Admin</button>
+      </div>
+    `;
+
+    // eventi
+    document.getElementById("btnPromote").addEventListener("click", promoteUser);
+
+  } catch (err) {
+    console.error("Errore nel caricamento stats admin:", err);
+
+    panel.innerHTML = `
+      <h3>📊 ADMIN PANEL</h3>
+      <p style="color:red;">Errore nel caricamento dati</p>
+    `;
+  }
 }
 
 /**
  * AZIONI ADMIN
  */
-function promoteUser() {
+export async function promoteUser() {
   const user = document.getElementById("userInput").value;
-  if (!user) return alert("Inserisci username");
+  if (!user) return alert("Inserisci email");
 
-  alert("Promosso a ADMIN: " + user);
-}
+  const res = await fetch(`/admin/promote?email=${user}`, {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + localStorage.getItem("token")
+    }
+  });
 
-function banUser() {
-  const user = document.getElementById("userInput").value;
-  if (!user) return alert("Inserisci username");
-
-  alert("Utente bannato: " + user);
+  if (res.ok) {
+    alert("Promosso ad ADMIN: " + user);
+  } else {
+    alert("Errore promozione");
+  }
 }
 
 /**
@@ -111,3 +136,4 @@ window.toggleTheme = toggleTheme;
  * INIT
  */
 window.addEventListener("DOMContentLoaded", initApp);
+highlightSidebar();

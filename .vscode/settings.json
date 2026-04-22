@@ -18,5 +18,9 @@
         "titleBar.inactiveBackground": "#27254c99",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#27254c"
+    "peacock.color": "#27254c",
+    "cSpell.words": [
+        "pinghi",
+        "TOPBAR"
+    ]
 }

@@ -55,3 +55,13 @@ export function render(events) {
 export function clearUI() {
   document.getElementById("main").innerHTML = "";
 }
+
+export function highlightSidebar() {
+  const path = window.location.pathname;
+
+  document.querySelectorAll(".nav-item").forEach(el => {
+    if (path.includes(el.dataset.page)) {
+      el.classList.add("active");
+    }
+  });
+}

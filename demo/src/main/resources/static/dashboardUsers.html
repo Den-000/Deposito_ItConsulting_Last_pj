@@ -56,17 +56,29 @@
 </div>
 
 <!-- MAIN -->
-<div class="main" id="main">
+<div class="main">
 
-  <!-- ADMIN PANEL -->
-  <div id="adminPanel" class="admin-panel" style="display:none;">
-    <!-- riempito da JS -->
-  </div>
+  <h2>👤 Users Dashboard</h2>
+
+  <table id="usersTable">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody id="usersBody">
+      <!-- JS inject -->
+    </tbody>
+  </table>
 
 </div>
 
+
 <!-- SCRIPT -->
-<script type="module" src="adminPage.js"></script>
+<script type="module" src="dashboardUsers.js"></script>
 <script type="module" src="profilo.js"></script>
 
 </body>

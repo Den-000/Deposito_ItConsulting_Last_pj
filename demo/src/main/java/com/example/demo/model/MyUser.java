@@ -17,7 +17,10 @@ public class MyUser {
     private String username;
     private String name;
     private String surname;
+
+    @Column(unique = true)
     private String email;
+    
     private String phone;
     private String password;
 

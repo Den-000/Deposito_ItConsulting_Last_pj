@@ -73,6 +73,11 @@
   .nav-item:hover {
     background: var(--card);
   }
+
+  .nav-item.active {
+    background: var(--primary);
+    color: white;
+  }
   
   /* =========================
      TOPBAR
@@ -131,102 +136,39 @@
     height: 90vh;
     margin-left: 270px;
     margin-top: 70px;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  @media (max-width: 1000px) {
-    .main {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (max-width: 600px) {
-    .main {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  /* =========================
-     CARD EVENTI
-     ========================= */
-  .card {
-    background: var(--card);
-    padding: 15px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    gap: 2vh;
-  }
-  
-  .card-header {
-    display: flex;
-    align-items: flex-end;
     justify-content: center;
-    margin-top: auto;
+  }
+  
+  table {
     width: 100%;
-    position: relative;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
   
-  .card-header small:first-of-type {
-    margin-right: auto;
+  thead {
+    background: rgba(255,255,255,0.05);
   }
   
-  .card-header small:last-of-type {
-    margin-left: auto;
+  th {
+    text-align: left;
+    padding: 14px;
+    font-size: 14px;
+    color: var(--muted);
   }
   
-  .card-footer {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    margin-top: auto;
-    width: 100%;
-    position: relative;
+  td {
+    padding: 14px;
+    border-top: 1px solid var(--border);
   }
   
-  .card-footer button {
-    transform: translateX(11vw);
-    width: auto;
+  tr:hover {
+    background: rgba(255,255,255,0.03);
   }
-  
-  .card-footer .badge {
-    margin-left: auto;
-  }
-  
-  /* =========================
-     EVENTO NON DISPONIBILE
-     ========================= */
-  .event {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.04);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .event.done {
-    opacity: 0.5;
-    text-decoration: line-through;
-  }
-  
-  /* =========================
-     BADGE PRIORITÀ
-     ========================= */
-  .badge {
-    font-size: 10px;
-    padding: 3px 6px;
-    border-radius: 8px;
-  }
-  
-  .high { background: #ef4444; }
-  .medium { background: #f59e0b; }
-  .low { background: #22c55e; }
   
   /* =========================
      INPUT E BUTTON
@@ -243,16 +185,32 @@
   }
   
   button {
-    width: 100%;
     padding: 10px;
     border-radius: 10px;
     background: var(--primary);
     border: none;
     color: white;
     cursor: pointer;
+    font-size: 13px;
   }
   
-  button:hover {
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+  
+  .btn-warning {
+    background: #f59e0b;
+    color: white;
+  }
+  
+  .btn:hover {
+    opacity: 0.85;
     background: var(--primary2);
   }
   
