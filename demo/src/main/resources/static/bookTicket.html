@@ -23,14 +23,14 @@
     <button onclick="toggleTheme()" class="topbar_btn">🌔 Tema</button>
 
     <div class="profile-menu">
-      <button class="profile-btn" id="profileBtn">
-        👤 <span id="username">Utente</span> ▼
+      <button type="button" class="profile-btn" id="profileBtn" onclick="toggleMenu()">
+        👤 <span class="profile-name hidden-until-loaded"></span> ▼
       </button>
 
       <div class="dropdown-menu" id="dropdownMenu">
         <a href="/profilo.html">Profilo</a>
         <a href="/biglietti.html">I miei biglietti</a>
-        <a href="#" id="logoutLink">Logout</a>
+        <a href="#" onclick="logout()">Logout</a>
       </div>
     </div>
   </div>

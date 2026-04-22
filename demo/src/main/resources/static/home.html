@@ -14,10 +14,10 @@
 <div class="sidebar">
   <h2>EventsManager</h2>
 
-  <div id="navEventsBtn" class="nav-item">Eventi</div>
+  <div id="navEventsBtn" class="nav-item active">Eventi</div>
   <div class="nav-item" onclick="window.location.href='/biglietti.html'">I Miei Biglietti</div>
 
-  <hr style="margin:10px 0">
+  <hr style="margin:14px 0">
 
   <h4>Check-In</h4>
   <input type="text" placeholder="Inserisci qr code">
@@ -47,15 +47,25 @@
   </div>
 </div>
 
-<div class="main" id="main">
-  <div id="adminPanel" class="admin-panel" style="display:none;">
-    <h3>📊 ADMIN PANEL</h3>
-    <p>Utenti totali: 120</p>
-    <p>Attivi: 98</p>
-    <p>Admin: 5</p>
-    <hr>
-    <button>Promuovi Admin</button>
-    <button>Banna Utente</button>
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <p class="page-kicker">Dashboard</p>
+      <h1>I tuoi eventi</h1>
+      <p class="page-subtitle">Scopri, cerca e gestisci i tuoi eventi in un’unica schermata.</p>
+    </div>
+  </div>
+
+  <div class="main" id="main">
+    <div id="adminPanel" class="admin-panel" style="display:none;">
+      <h3>📊 ADMIN PANEL</h3>
+      <p>Utenti totali: 120</p>
+      <p>Attivi: 98</p>
+      <p>Admin: 5</p>
+      <hr>
+      <button>Promuovi Admin</button>
+      <button>Banna Utente</button>
+    </div>
   </div>
 </div>
 
