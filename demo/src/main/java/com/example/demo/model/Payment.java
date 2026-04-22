@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,6 +45,7 @@ public class Payment {
     /**
      * Ticket associato al pagamento
      */
+    @JsonIgnoreProperties({"payment", "user"})
     @OneToOne
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;

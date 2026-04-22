@@ -56,8 +56,19 @@ export function clearUI() {
   document.getElementById("main").innerHTML = "";
 }
 
+/**
+ * EVIDENZIA LA PAGINA CORRENTE NELLA SIDEBAR (per admin e user)
+ */
 export function highlightSidebar() {
-  const path = window.location.pathname;
+  let path = window.location.pathname;
+
+  // normalizza dettaglio -> dashboard
+  if (path.includes("detailUser")) path = "dashboardUsers";
+  else if (path.includes("detailTicket")) path = "dashboardUsers";
+  else if (path.includes("detailPayment")) path = "dashboardUsers";
+  else if (path.includes("detailEvent")) path = "dashboardEvents";
+  else if (path.includes("detailTicketsType")) path = "dashboardEvents";
+  else if (path.includes("detailLocation")) path = "dashboardLocations";
 
   document.querySelectorAll(".nav-item").forEach(el => {
     if (path.includes(el.dataset.page)) {

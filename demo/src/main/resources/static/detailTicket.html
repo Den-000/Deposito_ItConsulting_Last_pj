@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+
+  <link rel="stylesheet" href="adminPage.css">
+  <link rel="stylesheet" href="/profile-menu.css">
+  <link rel="icon" href="data:,">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>EventsManager</h2>
+
+  <hr style="margin:10px 0">
+
+  <h4>Admin</h4>
+  <div class="nav-item" data-page="admin" onclick="window.location.href='/admin.html'">Dashboard Admin</div>
+
+  <div class="nav-item" data-page="dashboardUsers" onclick="window.location.href='/dashboardUsers.html'">Dashboard Utenti</div>
+  <div class="nav-item" data-page="dashboardEvents" onclick="window.location.href='/dashboardEvents.html'">Dashboard Eventi</div>
+  <div class="nav-item" data-page="dashboardLocations" onclick="window.location.href='/dashboardLocations.html'">Dashboard Location</div>
+  <div class="nav-item" data-page="dashboardNotifications" onclick="window.location.href='/dashboardNotifications.html'">Dashboard Notifiche</div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <form id="searchForm" class="search-form">
+    <input id="searchInput" type="text" class="search" placeholder="Cerca evento">
+
+    <button type="submit" class="topbar_btn">
+      🔍 Cerca
+    </button>
+  </form>
+
+  <div class="topbar-right">
+    <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
+
+    <div class="profile-menu">
+      <button type="button" class="profile-btn" onclick="toggleMenu()">
+        👤 <span id="username">Admin</span> ▼
+      </button>
+
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="/profilo.html">Profilo</a>
+        <a href="/biglietti.html">I miei biglietti</a>
+        <a href="#" id="topBarBtn">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2>🎫 Ticket Detail 🎫</h2>
+  
+    <div class="card">
+      <p><b>ID:</b> <span id="ticketId"></span></p>
+      <p><b>Evento:</b> <span id="eventName"></span></p>
+      <p><b>Email:</b> <span id="email"></span></p>
+      <p><b>Data acquisto:</b> <span id="purchaseDate"></span></p>
+      <p><b>Valido:</b> <span id="valid"></span></p>
+      <p><b>Check-in:</b> <span id="checkedIn"></span></p>
+      <p><b>Tipo biglietto:</b> <span id="ticketType"></span></p>
+      <p><b>Prezzo biglietto:</b> <span id="price"></span></p>
+
+      <p><b>Pagamento:</b></p>
+      <p>Importo: <span id="paymentAmount"></span></p>
+      <p>Metodo: <span id="paymentMethod"></span></p>
+      <p>Stato: <span id="paymentStatus"></span></p>
+  
+      <button onclick="checkIn()">Check-in</button>
+      <button onclick="invalidate()">Invalidate</button>
+      <button onclick="deleteTicket()">Delete</button>
+    </div>
+  
+  </div>
+
+
+<!-- SCRIPT -->
+<script type="module" src="detailTicket.js"></script>
+<script type="module" src="profilo.js"></script>
+
+</body>
+</html>

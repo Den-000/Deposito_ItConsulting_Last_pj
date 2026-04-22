@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.CheckInRequest;
 import com.example.demo.dto.MyTicketResponse;
+import com.example.demo.dto.TicketDTO;
 import com.example.demo.dto.TicketRequest;
 import com.example.demo.dto.TicketResponse;
 import com.example.demo.model.Event;
@@ -148,5 +149,48 @@ public class TicketService {
                     return r;
                 })
                 .toList();
+    }
+
+    // Metodo per admin: ottenere i biglietti di un utente specifico
+    public List<TicketDTO> getUserTickets(Long userId) {
+        List<Ticket> tickets = ticketRepository.findByUser_Id(userId);
+    
+        return tickets.stream()
+                .map(t -> new TicketDTO(
+                        t.getId(),
+                        t.getEvent().getName(),
+                        t.getEmail(),
+                        t.getPurchaseDate(),
+                        t.isValid(),
+                        t.isCheckedIn(),
+                        t.getTicketType().getName(),
+                        t.getTicketType().getPrice(),
+    
+                        t.getPayment() != null ? t.getPayment().getAmount() : null,
+                        t.getPayment() != null ? t.getPayment().getMethod() : null,
+                        t.getPayment() != null ? t.getPayment().getStatus().name() : null
+                ))
+                .toList();
+    }
+
+    // Metodo per admin: ottenere i dettagli di un biglietto specifico
+    public TicketDTO getTicketById(Long id) {
+        Ticket t = ticketRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ticket non trovato"));
+    
+        return new TicketDTO(
+                t.getId(),
+                t.getEvent().getName(),
+                t.getEmail(),
+                t.getPurchaseDate(),
+                t.isValid(),
+                t.isCheckedIn(),
+                t.getTicketType().getName(),
+                t.getTicketType().getPrice(),
+    
+                t.getPayment() != null ? t.getPayment().getAmount() : null,
+                t.getPayment() != null ? t.getPayment().getMethod() : null,
+                t.getPayment() != null ? t.getPayment().getStatus().name() : null
+        );
     }
 }

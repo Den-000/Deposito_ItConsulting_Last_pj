@@ -26,7 +26,10 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     //
     List<Ticket> findByUser(MyUser user);
 
-    List<Ticket> findByUser_Email(String email);
+    /**
+     * Trova tutti i biglietti di un utente tramite ID.
+     */
+    List<Ticket> findByUser_Id(Long id);
 
     /**
      * Trova un biglietto tramite QR code.

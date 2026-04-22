@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,24 +49,28 @@ public class Ticket {
     /**
      * Utente proprietario del ticket
      */
+    @JsonIgnoreProperties({"tickets", "payments"})
     @ManyToOne
     private MyUser user;
 
     /**
      * Evento associato al ticket
      */
+    @JsonIgnoreProperties({"tickets"})
     @ManyToOne
     private Event event;
 
     /**
      * Tipo di biglietto acquistato
      */
+    @JsonIgnoreProperties({"tickets", "event"})
     @ManyToOne
     private TicketType ticketType;
 
     /**
      * Pagamento associato al ticket
      */
+    @JsonIgnoreProperties({"ticket", "user"})
     @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL)
     private Payment payment;
 }

@@ -45,6 +45,7 @@ public class TicketType {
      * Evento a cui appartiene questo tipo di biglietto
      */
     @ManyToOne
+    @JoinColumn(name = "event_id")
     @JsonBackReference
     private Event event;
 }

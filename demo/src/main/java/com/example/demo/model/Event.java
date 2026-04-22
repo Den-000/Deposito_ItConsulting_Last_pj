@@ -3,7 +3,7 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -70,7 +70,16 @@ public class Event {
      * 
      * JsonIgnore evita loop infiniti nella serializzazione JSON
      */
-    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<TicketType> ticketTypes;
+
+    /**
+     * Biglietti prenotati per questo evento
+     * (relazione uno-a-molti)
+     * 
+     * JsonIgnore evita loop infiniti nella serializzazione JSON
+     */
+    @JsonIgnoreProperties({"event"})
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets;
 }

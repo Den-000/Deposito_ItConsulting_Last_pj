@@ -1,5 +1,9 @@
 package com.example.demo.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +30,8 @@ public class MyUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @JsonIgnoreProperties({"user", "payment"})
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> tickets;
 }

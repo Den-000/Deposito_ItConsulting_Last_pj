@@ -25,6 +25,15 @@ public class AdminService {
         return new AdminStatsDTO(totalUsers, totalAdmins);
     }
 
+    public List<MyUser> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public MyUser getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+    }
+
     public void promoteUser(String email) {
         MyUser user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
@@ -33,7 +42,15 @@ public class AdminService {
         userRepository.save(user);
     }
 
-    public List<MyUser> getAllUsers() {
-        return userRepository.findAll();
+    public void promoteUserById(Long id) {
+        MyUser user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato"));
+
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

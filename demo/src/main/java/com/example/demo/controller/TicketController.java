@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CheckInRequest;
 import com.example.demo.dto.MyTicketResponse;
+import com.example.demo.dto.TicketDTO;
 import com.example.demo.dto.TicketRequest;
 import com.example.demo.dto.TicketResponse;
 import com.example.demo.service.TicketService;
@@ -36,5 +38,10 @@ public class TicketController {
     @GetMapping("/my")
     public List<MyTicketResponse> getMyTickets() {
         return ticketService.getMyTickets();
+    }
+
+    @GetMapping("/{id}")
+    public TicketDTO getTicket(@PathVariable Long id) {
+        return ticketService.getTicketById(id);
     }
 }
