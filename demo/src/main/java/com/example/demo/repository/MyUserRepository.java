@@ -24,4 +24,10 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
      * Utile per registrazione utenti.
      */
     boolean existsByUsername(String username);
+
+    /**
+     * Verifica se esiste già un'email nel sistema.
+     * Utile per registrazione utenti.
+     */
+    Optional<MyUser> findByEmail(String email);
 }
