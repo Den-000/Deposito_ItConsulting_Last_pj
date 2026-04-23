@@ -2,111 +2,109 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acquista Biglietto</title>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="profile-menu.css">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/profile-menu.css">
+  <link rel="stylesheet" href="/bookTicket.css">
+  <link rel="icon" href="data:,">
 </head>
 
 <body>
+  <div class="sidebar">
+    <h2>EventsManager</h2>
 
-<div class="sidebar">
-  <h2>EventsManager</h2>
+    <div class="nav-item" onclick="window.location.href='/home.html'">Eventi</div>
+    <div class="nav-item" onclick="window.location.href='/biglietti.html'">I Miei Biglietti</div>
+  </div>
 
-  <div class="nav-item" onclick="window.location.href='home.html'">Eventi</div>
-  <div class="nav-item" onclick="window.location.href='biglietti.html'">I Miei Biglietti</div>
-</div>
+  <div class="topbar">
+    <div class="topbar-right">
+      <button onclick="toggleTheme()" class="topbar_btn">🌔 Tema</button>
 
-<div class="topbar">
-  <div class="topbar-right">
-    <button onclick="toggleTheme()" class="topbar_btn">🌔 Tema</button>
+      <div class="profile-menu">
+        <button type="button" class="profile-btn" id="profileBtn" onclick="toggleMenu()">
+          👤 <span class="profile-name hidden-until-loaded"></span> ▼
+        </button>
 
-    <div class="profile-menu">
-      <button type="button" class="profile-btn" id="profileBtn" onclick="toggleMenu()">
-        👤 <span class="profile-name hidden-until-loaded"></span> ▼
-      </button>
-
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/profilo.html">Profilo</a>
-        <a href="/biglietti.html">I miei biglietti</a>
-        <a href="#" onclick="logout()">Logout</a>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="/profilo.html">Profilo</a>
+          <a href="/biglietti.html">I miei biglietti</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="main" style="grid-template-columns: 1fr;">
-  <div class="card booking-card">
-
-    <div class="booking-header">
-      <h2 id="eventName">Caricamento evento...</h2>
-      <p id="ticketName"></p>
-      <h3 id="price"></h3>
-    </div>
-
-    <div class="step-indicator">
-      <div class="step-badge active" id="stepBadge1">1</div>
-      <div class="step-line"></div>
-      <div class="step-badge" id="stepBadge2">2</div>
-    </div>
-
-    <div class="step-labels">
-      <span>Dati intestatario</span>
-      <span>Pagamento</span>
-    </div>
-
-    <div id="step1" class="form-step active">
-      <h3 class="step-title">Dati intestatario</h3>
-
-      <label>Nome</label>
-      <input type="text" id="firstName" placeholder="Inserisci nome">
-
-      <label>Cognome</label>
-      <input type="text" id="lastName" placeholder="Inserisci cognome">
-
-      <label>Email</label>
-      <div class="email-row">
-        <input type="email" id="email" placeholder="Inserisci email">
-        <button type="button" id="autofillEmailBtn" class="secondary-btn autofill-btn">Usa email account</button>
+  <main class="payment-main">
+    <div class="booking-card">
+      <div class="booking-header">
+        <h2 id="eventName">Caricamento evento...</h2>
+        <p id="ticketName"></p>
+        <h3 id="price"></h3>
       </div>
 
-      <button id="nextBtn">Avanti</button>
-    </div>
+      <div class="step-indicator">
+        <div class="step-badge active" id="stepBadge1">1</div>
+        <div class="step-line"></div>
+        <div class="step-badge" id="stepBadge2">2</div>
+      </div>
 
-    <div id="step2" class="form-step">
-      <h3 class="step-title">Dati pagamento</h3>
+      <div class="step-labels">
+        <span>Dati intestatario</span>
+        <span>Pagamento</span>
+      </div>
 
-      <label>Intestatario carta</label>
-      <input type="text" id="cardName" placeholder="Nome sulla carta">
+      <div id="step1" class="form-step active">
+        <h3 class="step-title">Dati intestatario</h3>
 
-      <label>Numero carta</label>
-      <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+        <label for="firstName">Nome</label>
+        <input type="text" id="firstName" placeholder="Inserisci nome">
 
-      <div class="payment-row">
-        <div class="payment-field">
-          <label>Scadenza</label>
-          <input type="text" id="expiry" placeholder="MM/AA" maxlength="5">
+        <label for="lastName">Cognome</label>
+        <input type="text" id="lastName" placeholder="Inserisci cognome">
+
+        <label for="email">Email</label>
+        <div class="email-row">
+          <input type="email" id="email" placeholder="Inserisci email">
+          <button type="button" id="autofillEmailBtn" class="secondary-btn autofill-btn">Usa email account</button>
         </div>
 
-        <div class="payment-field">
-          <label>CVV</label>
-          <input type="text" id="cvv" placeholder="123" maxlength="4">
+        <button type="button" id="nextBtn">Avanti</button>
+      </div>
+
+      <div id="step2" class="form-step">
+        <h3 class="step-title">Dati pagamento</h3>
+
+        <label for="cardName">Intestatario carta</label>
+        <input type="text" id="cardName" placeholder="Nome sulla carta">
+
+        <label for="cardNumber">Numero carta</label>
+        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+
+        <div class="payment-row">
+          <div class="payment-field">
+            <label for="expiry">Scadenza</label>
+            <input type="text" id="expiry" placeholder="MM/AA" maxlength="5">
+          </div>
+
+          <div class="payment-field">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="123" maxlength="4">
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" id="backBtn" class="secondary-btn">Indietro</button>
+          <button type="button" id="buyBtn">Conferma pagamento</button>
         </div>
       </div>
 
-      <div class="step-actions">
-        <button type="button" id="backBtn" class="secondary-btn">Indietro</button>
-        <button type="button" id="buyBtn">Conferma pagamento</button>
-      </div>
+      <small id="statusMsg"></small>
     </div>
+  </main>
 
-    <small id="statusMsg"></small>
-
-  </div>
-</div>
-
-<script type="module" src="bookTicket.js"></script>
-
+  <script type="module" src="/bookTicket.js"></script>
 </body>
 </html>

@@ -2,85 +2,85 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EventsManager Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/profile-menu.css">
+  <link rel="icon" href="data:,">
 </head>
 
 <body>
 
-<div class="sidebar">
-  <h2>EventsManager</h2>
+  <div class="sidebar">
+    <h2>EventsManager</h2>
 
-  <div id="navEventsBtn" class="nav-item active">Eventi</div>
-  <div class="nav-item" onclick="window.location.href='/biglietti.html'">I Miei Biglietti</div>
+    <div id="navEventsBtn" class="nav-item" onclick="window.location.href='/home.html'">Eventi</div>
+    <div class="nav-item" onclick="window.location.href='/biglietti.html'">I Miei Biglietti</div>
 
-  <hr style="margin:14px 0">
+    <hr style="margin:10px 0">
 
-  <h4>Check-In</h4>
-  <input type="text" placeholder="Inserisci qr code">
-  <button>Effettua Check-In</button>
-</div>
+    <h4>Check-In</h4>
+    <input type="text" placeholder="Inserisci qr code">
+    <button type="button">Effettua Check-In</button>
+  </div>
 
-<div class="topbar">
-  <form id="searchForm" class="search-form">
-    <input id="searchInput" type="text" class="search" placeholder="Cerca evento">
-    <button type="submit" class="topbar_btn">🔍 Cerca</button>
-  </form>
+  <div class="topbar">
+    <form id="searchForm" class="search-form">
+      <input id="searchInput" type="text" class="search" placeholder="Cerca evento">
+      <button type="submit" class="topbar_btn">🔍 Cerca</button>
+    </form>
 
-  <div class="topbar-right">
-    <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
+    <div class="topbar-right">
+      <button type="button" class="topbar_btn" onclick="toggleTheme()">🌔 Tema</button>
 
-    <div class="profile-menu">
-      <button type="button" class="profile-btn" onclick="toggleMenu()">
-        👤 <span class="profile-name hidden-until-loaded"></span> ▼
-      </button>
+      <div class="profile-menu">
+        <button type="button" class="profile-btn" onclick="toggleMenu()">
+          👤 <span class="profile-name hidden-until-loaded"></span> ▼
+        </button>
 
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="/profilo.html">Profilo</a>
-        <a href="/biglietti.html">I miei biglietti</a>
-        <a href="#" onclick="logout()">Logout</a>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="/profilo.html">Profilo</a>
+          <a href="/biglietti.html">I miei biglietti</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="page-shell">
-  <div class="page-header">
-    <div>
-      <p class="page-kicker">Dashboard</p>
-      <h1>I tuoi eventi</h1>
-      <p class="page-subtitle">Scopri, cerca e gestisci i tuoi eventi in un’unica schermata.</p>
+  <div class="page-shell">
+    <div class="page-header">
+      <div>
+        <p class="page-kicker">Dashboard</p>
+        <h1>I tuoi eventi</h1>
+        <p class="page-subtitle">Scopri, cerca e gestisci i tuoi eventi in un’unica schermata.</p>
+      </div>
+    </div>
+
+    <div id="main" class="main home-main"></div>
+      <div id="adminPanel" class="admin-panel" style="display:none;">
+        <h3>📊 ADMIN PANEL</h3>
+        <p>Utenti totali: 120</p>
+        <p>Attivi: 98</p>
+        <p>Admin: 5</p>
+        <hr>
+        <button type="button">Promuovi Admin</button>
+        <button type="button">Banna Utente</button>
+      </div>
     </div>
   </div>
 
-  <div class="main" id="main">
-    <div id="adminPanel" class="admin-panel" style="display:none;">
-      <h3>📊 ADMIN PANEL</h3>
-      <p>Utenti totali: 120</p>
-      <p>Attivi: 98</p>
-      <p>Admin: 5</p>
-      <hr>
-      <button>Promuovi Admin</button>
-      <button>Banna Utente</button>
-    </div>
-  </div>
-</div>
+  <script type="module">
+    import { initProfileMenu } from "/profile-menu.js";
+    import { applySavedTheme, toggleTheme } from "/utils.js";
 
-<script type="module">
-  import { initProfileMenu } from "/profile-menu.js";
-  import { applySavedTheme, toggleTheme } from "/utils.js";
+    applySavedTheme();
+    initProfileMenu();
 
-  applySavedTheme();
-  initProfileMenu();
+    window.toggleTheme = toggleTheme;
+  </script>
 
-  window.toggleTheme = toggleTheme;
-</script>
-
-<script type="module" src="app.js"></script>
-<script type="module" src="profilo.js"></script>
+  <script type="module" src="/app.js"></script>
+  <script type="module" src="/profilo.js"></script>
 
 </body>
 </html>
