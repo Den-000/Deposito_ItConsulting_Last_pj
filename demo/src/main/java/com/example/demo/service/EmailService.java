@@ -23,46 +23,18 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     /**
-     * Invia il biglietto via email all'utente.
+     * Invia il riepilogo del pagamento e il QR code del biglietto via email.
      */
-    public void sendTicket(String to, String qr) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-
-            helper.setTo(to);
-            helper.setSubject("Il tuo biglietto");
-
-            String html = """
-                    <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; background: #0f172a; color: #e5e7eb; border-radius: 16px; overflow: hidden; border: 1px solid #334155;">
-                        <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 24px; text-align: center;">
-                            <h1 style="margin: 0; font-size: 28px; color: white;">Pagamento completato</h1>
-                            <p style="margin: 8px 0 0 0; color: #ede9fe;">Il tuo biglietto è stato confermato con successo</p>
-                        </div>
-                        <div style="padding: 28px;">
-                            <p style="font-size: 16px; margin-bottom: 18px;">Di seguito trovi il codice del tuo biglietto:</p>
-                            <div style="background: #1e293b; border: 1px solid #475569; border-radius: 12px; padding: 18px; text-align: center; margin-bottom: 22px;">
-                                <p style="margin: 0 0 10px 0; color: #94a3b8; font-size: 14px;">QR Code</p>
-                                <p style="margin: 0; font-size: 20px; font-weight: bold; color: #ffffff; word-break: break-word;">%s</p>
-                            </div>
-                            <p style="margin: 0; color: #cbd5e1;">Conserva questa email e mostra il codice al momento dell'accesso.</p>
-                        </div>
-                    </div>
-                    """.formatted(qr);
-
-            helper.setText(html, true);
-            mailSender.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("Errore durante l'invio dell'email", e);
-        }
-    }
-
     public void sendTicketPaymentSummary(Ticket ticket, Payment payment) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setTo(ticket.getEmail());
+            String recipientEmail = ticket.getEmail() != null && !ticket.getEmail().isBlank()
+                    ? ticket.getEmail()
+                    : ticket.getUser().getEmail();
+
+            helper.setTo(recipientEmail);
             helper.setSubject("Conferma acquisto biglietto - " + ticket.getEvent().getName());
 
             String eventDate = ticket.getEvent().getDate() != null
