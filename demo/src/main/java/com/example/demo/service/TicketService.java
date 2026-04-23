@@ -36,7 +36,6 @@ public class TicketService {
     private final TicketTypeRepository ticketTypeRepository;
     private final TicketRepository ticketRepository;
     private final MyUserRepository userRepository;
-    @SuppressWarnings("unused")
     private final EmailService emailService;
     private final QRCodeService qrCodeService;
 
@@ -49,7 +48,8 @@ public class TicketService {
             throw new RuntimeException("Evento non attivo");
         }
 
-        if (event.getBookedSeats() >= event.getMaxSeats()) {
+        long soldTickets = ticketRepository.countByEventId(event.getId());
+        if (soldTickets >= event.getMaxSeats()) {
             throw new RuntimeException("Evento sold out");
         }
 
@@ -78,9 +78,8 @@ public class TicketService {
         ticket.setCheckedIn(false);
         ticket.setPurchaseDate(LocalDateTime.now());
 
-        event.setBookedSeats(event.getBookedSeats() + 1);
         type.setAvailableSeats(type.getAvailableSeats() - 1);
-        
+
         // ---------------- PAYMENT  (CASCADE) ----------------
         Payment payment = new Payment();
         payment.setAmount(type.getPrice());
@@ -92,6 +91,10 @@ public class TicketService {
         ticket.setPayment(payment);
 
         Ticket saved = ticketRepository.save(ticket);
+
+        if (saved.getPayment() != null && saved.getPayment().getStatus() == PaymentStatus.PAID) {
+            emailService.sendTicketPaymentSummary(saved, saved.getPayment());
+        }
 
         return TicketResponse.builder()
                 .qrCode(saved.getQrCode())
@@ -158,7 +161,7 @@ public class TicketService {
     // Metodo per admin: ottenere i biglietti di un utente specifico
     public List<TicketDTO> getUserTickets(Long userId) {
         List<Ticket> tickets = ticketRepository.findByUser_Id(userId);
-    
+
         return tickets.stream()
                 .map(t -> new TicketDTO(
                         t.getId(),
@@ -169,7 +172,7 @@ public class TicketService {
                         t.isCheckedIn(),
                         t.getTicketType().getName(),
                         t.getTicketType().getPrice(),
-    
+
                         t.getPayment() != null ? t.getPayment().getAmount() : null,
                         t.getPayment() != null ? t.getPayment().getMethod() : null,
                         t.getPayment() != null ? t.getPayment().getStatus().name() : null
@@ -181,7 +184,7 @@ public class TicketService {
     public TicketDTO getTicketById(Long id) {
         Ticket t = ticketRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ticket non trovato"));
-    
+
         return new TicketDTO(
                 t.getId(),
                 t.getEvent().getName(),
@@ -191,7 +194,7 @@ public class TicketService {
                 t.isCheckedIn(),
                 t.getTicketType().getName(),
                 t.getTicketType().getPrice(),
-    
+
                 t.getPayment() != null ? t.getPayment().getAmount() : null,
                 t.getPayment() != null ? t.getPayment().getMethod() : null,
                 t.getPayment() != null ? t.getPayment().getStatus().name() : null
