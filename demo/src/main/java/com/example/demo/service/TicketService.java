@@ -197,4 +197,8 @@ public class TicketService {
                 t.getPayment() != null ? t.getPayment().getStatus().name() : null
         );
     }
+
+    public long getSoldTickets(Long eventId) {
+        return ticketRepository.countByEventId(eventId);
+    }
 }

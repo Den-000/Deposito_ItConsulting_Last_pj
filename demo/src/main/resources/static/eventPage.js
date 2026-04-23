@@ -1,4 +1,4 @@
-import { formatDate } from "./ui.js";
+import { formatDate, getEventImage } from "./ui.js";
 import { initProfileMenu } from "./profile-menu.js";
 import { toggleTheme, applySavedTheme } from "./utils.js";
 
@@ -54,6 +54,12 @@ function renderEvent(event) {
     event.location?.name,
     event.location?.city
   ].filter(Boolean).join(", ");
+
+  const imageUrl = event.imageUrl && event.imageUrl.trim() !== ""
+    ? event.imageUrl
+    : getEventImage(event.name);
+
+  document.getElementById("eventImage").src = imageUrl;
 
   const seatsEl = document.getElementById("seats");
   seatsEl.textContent = `Posti occupati: ${event.bookedSeats}/${event.maxSeats}`;

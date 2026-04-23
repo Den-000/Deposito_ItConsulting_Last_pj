@@ -39,18 +39,18 @@ function getStatusLabel(status) {
   return value;
 }
 
-function getEventImage(eventName) {
+export function getEventImage(eventName) {
   const name = (eventName || "").toLowerCase();
 
   if (name.includes("concerto") || name.includes("rock") || name.includes("live")) {
-    return "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop";
+    return "/images/rock-concert.png";
   }
 
   if (name.includes("teatro") || name.includes("spettacolo")) {
-    return "https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=1200&auto=format&fit=crop";
+    return "/images/pop-concert.png";
   }
 
-  return "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop";
+  return "/images/pop-concert.png";
 }
 
 export function render(events) {
@@ -60,7 +60,7 @@ export function render(events) {
     const div = document.createElement("div");
     div.classList.add("card", "event-card");
 
-    const imageUrl = getEventImage(e.name);
+    const imageUrl = e.imageUrl && e.imageUrl.trim() !== "" ? e.imageUrl : getEventImage(e.name);
     const badgeClass = getStatusBadge(e.status);
 
     div.innerHTML = `
@@ -107,7 +107,6 @@ export function clearUI() {
 export function highlightSidebar() {
   let path = window.location.pathname;
 
-  // normalizza dettaglio -> dashboard
   if (path.includes("detailUser")) path = "dashboardUsers";
   else if (path.includes("detailTicket")) path = "dashboardUsers";
   else if (path.includes("detailPayment")) path = "dashboardUsers";
