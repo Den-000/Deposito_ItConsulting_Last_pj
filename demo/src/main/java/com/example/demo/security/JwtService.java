@@ -37,13 +37,13 @@ public class JwtService {
         return Jwts.builder()
 
                 // "subject" = identificatore principale del token (qui username)
-                .setSubject(username)
+                .setSubject(email)
 
                 // aggiunge informazioni personalizzate dentro il token (payload)
                 .claim("role", role)
 
                 //
-                .claim("email", email)
+                .claim("username", username)
 
                 // data di creazione token
                 .setIssuedAt(new Date())
@@ -65,6 +65,25 @@ public class JwtService {
      * @return username contenuto nel token
      */
     public String extractUsername(String token) {
+        return Jwts.parserBuilder()
+
+                // imposta chiave per verificare firma
+                .setSigningKey(key)
+
+                // costruisce parser JWT
+                .build()
+
+                // decodifica token e verifica firma
+                .parseClaimsJws(token)
+
+                // recupera payload (claims)
+                .getBody()
+
+                // prende subject (username)
+                .get("username", String.class);
+    }
+
+    public String extractEmail(String token) {
         return Jwts.parserBuilder()
 
                 // imposta chiave per verificare firma

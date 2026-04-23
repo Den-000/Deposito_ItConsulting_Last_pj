@@ -30,6 +30,15 @@ function getStatusBadge(status) {
   return "medium";
 }
 
+function getStatusLabel(status) {
+  const value = (status || "").toString().toUpperCase();
+
+  if (value === "ACTIVE") return "ATTIVO";
+  if (value === "COMPLETED") return "COMPLETATO";
+
+  return value;
+}
+
 function getEventImage(eventName) {
   const name = (eventName || "").toLowerCase();
 
@@ -74,7 +83,7 @@ export function render(events) {
 
       <div class="card-footer event-card-footer">
         <button class="ticket-btn">BIGLIETTI</button>
-        <div class="badge ${badgeClass}">${e.status}</div>
+        <div class="badge ${badgeClass}">${getStatusLabel(e.status)}</div>
       </div>
     `;
 

@@ -5,7 +5,7 @@ const API = "http://localhost:8081";
 
 async function login() {
   try {
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     const res = await fetch(`${API}/auth/login`, {
@@ -13,7 +13,7 @@ async function login() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ email, password })
     });
 
     const data = await res.json();
@@ -39,13 +39,13 @@ async function login() {
   }
 }
 
-// 👇 collega il bottone
+// collega il bottone
 document.getElementById("loginBtn").addEventListener("click", login);
 
 async function register() {
 
   // prende valori input
-  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   const confirm = document.getElementById("confirm").value;
 
@@ -65,7 +65,7 @@ async function register() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ email, password })
   });
 
   // feedback utente
@@ -73,4 +73,4 @@ async function register() {
 
   // ritorno al login
   window.location.href = "login.html";
-}ì
+}

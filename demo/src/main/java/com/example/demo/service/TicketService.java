@@ -61,9 +61,9 @@ public class TicketService {
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
+        String email = auth.getName();
 
-        MyUser user = userRepository.findByUsername(username)
+        MyUser user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
         Ticket ticket = new Ticket();
@@ -122,11 +122,11 @@ public class TicketService {
 
     public List<MyTicketResponse> getMyTickets() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
+        String email = auth.getName();
 
-        System.out.println("AUTH NAME: " + username);
+        System.out.println("AUTH NAME: " + email);
 
-        MyUser user = userRepository.findByUsername(username)
+        MyUser user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
         return ticketRepository.findByUserOrderByEvent_DateDesc(user).stream()

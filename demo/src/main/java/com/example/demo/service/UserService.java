@@ -14,8 +14,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserProfileDto getCurrentUserProfile(String username) {
-        MyUser user = userRepository.findByUsername(username)
+    public UserProfileDto getCurrentUserProfile(String email) {
+        MyUser user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
         return new UserProfileDto(

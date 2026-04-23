@@ -165,3 +165,23 @@
     align-items: center;
   }
 }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f59e0b;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.event-seats {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}

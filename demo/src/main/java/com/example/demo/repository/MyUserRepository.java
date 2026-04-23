@@ -30,4 +30,6 @@ public interface MyUserRepository extends JpaRepository<MyUser, Long> {
      * Utile per registrazione utenti.
      */
     Optional<MyUser> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 }

@@ -50,16 +50,45 @@ function renderEvent(event) {
   document.getElementById("date").textContent = formatDate(event.date);
 
   document.getElementById("location").textContent = [
-  event.location?.address,
-  event.location?.name,
-  event.location?.city
-].filter(Boolean).join(", ");
+    event.location?.address,
+    event.location?.name,
+    event.location?.city
+  ].filter(Boolean).join(", ");
 
-  document.getElementById("seats").textContent = `Posti occupati: ${event.bookedSeats}/${event.maxSeats}`;
+  const seatsEl = document.getElementById("seats");
+  seatsEl.textContent = `Posti occupati: ${event.bookedSeats}/${event.maxSeats}`;
 
-  document.getElementById("status").textContent = event.status || "";
+  const statusEl = document.getElementById("status");
+
+  function getStatusLabel(status) {
+    const value = (status || "").toUpperCase();
+
+    if (value === "ACTIVE") return "ATTIVO";
+    if (value === "COMPLETED") return "COMPLETATO";
+    return value;
+  }
+
+  statusEl.textContent = getStatusLabel(event.status);
 
   renderTicketTypes(event.ticketTypes || []);
+}
+
+function getTicketDescription(ticketName) {
+  const value = (ticketName || "").toLowerCase();
+
+  if (value.includes("vip")) {
+    return "Accesso prioritario, posti migliori e area dedicata.";
+  }
+
+  if (value.includes("ridotto")) {
+    return "Accesso a prezzo agevolato per bambini e anziani.";
+  }
+
+  if (value.includes("standard")) {
+    return "Accesso completo all’evento con posto standard.";
+  }
+
+  return "Accesso all’evento con biglietto dedicato.";
 }
 
 function renderTicketTypes(ticketTypes) {
@@ -77,7 +106,7 @@ function renderTicketTypes(ticketTypes) {
       <h3>${t.name}</h3>
       <div class="ticket-price">€${Number(t.price).toFixed(2)}</div>
       <div class="ticket-divider"></div>
-      <p class="ticket-description">Aggiungere descrizione del pacchetto</p>
+      <p class="ticket-description">${getTicketDescription(t.name)}</p>
       <div class="ticket-availability">Disponibili: <span>${t.availableSeats}</span></div>
       <button class="ticket-button">PRENOTA</button>
     `;

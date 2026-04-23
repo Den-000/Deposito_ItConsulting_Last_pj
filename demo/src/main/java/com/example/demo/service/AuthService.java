@@ -40,15 +40,15 @@ public class AuthService {
    public AuthResponse login(AuthRequest req) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        req.getUsername(),
+                        req.getEmail(),
                         req.getPassword()
                 )
         );
 
-        MyUser user = repo.findByUsername(req.getUsername()).orElseThrow();
+        MyUser user = repo.findByEmail(req.getEmail()).orElseThrow();
 
-        String access = jwtService.generateToken(user.getUsername(),user.getRole().name(),user.getEmail());
-        String refresh = refreshService.createToken(user.getUsername());
+        String access = jwtService.generateToken(user.getUsername(), user.getRole().name(), user.getEmail());
+        String refresh = refreshService.createToken(user.getEmail());
 
         return new AuthResponse(access, refresh);
     }
@@ -58,7 +58,7 @@ public class AuthService {
      */
     public void register(AuthRequest req) {
         MyUser u = new MyUser();
-        u.setUsername(req.getUsername());
+        u.setUsername(req.getEmail());
         u.setEmail(req.getEmail());
         u.setPassword(encoder.encode(req.getPassword()));
         u.setRole(Role.USER);

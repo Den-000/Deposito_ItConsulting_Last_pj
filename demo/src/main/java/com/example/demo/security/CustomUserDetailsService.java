@@ -23,12 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
 
         // recupera utente dal DB
-        MyUser user = repo.findByUsername(username)
+        MyUser user = repo.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // converte in oggetto compatibile con Spring Security
         return User.builder()
-        .username(user.getUsername())
+        .username(user.getEmail())
         .password(user.getPassword())
         .roles(user.getRole().name())
         .build();

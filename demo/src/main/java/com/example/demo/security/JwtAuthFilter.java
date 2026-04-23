@@ -68,14 +68,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String token = header.substring(7);
 
                 // 4. Estrazione username dal token
-                String username = jwtService.extractUsername(token);
+                String email = jwtService.extractEmail(token);
                 
                 // 5. Autenticazione solo se non già presente
-                if (username != null &&
+                if (email != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
 
                     // 6. Caricamento utente dal database
-                    UserDetails user = userService.loadUserByUsername(username);
+                    UserDetails user = userService.loadUserByUsername(email);
 
                     // 7. Creazione oggetto autenticazione Spring Security
                     UsernamePasswordAuthenticationToken auth =
