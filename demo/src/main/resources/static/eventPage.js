@@ -70,17 +70,38 @@ function renderEvent(event) {
     const value = (status || "").toUpperCase();
 
     if (value === "ACTIVE") return "ATTIVO";
+    if (value === "COMING_SOON") return "NON DISPONIBILE";
     if (value === "COMPLETED") return "COMPLETATO";
     return value;
   }
 
   statusEl.textContent = getStatusLabel(event.status);
 
-  renderTicketTypes(event.ticketTypes || []);
+  renderTicketTypes(event.ticketTypes || [], event.status);
 }
 
 function getTicketDescription(ticketName) {
   const value = (ticketName || "").toLowerCase();
+
+  if (value.includes("curva")) {
+    return "Settore più caldo dello stadio, ideale per vivere la partita con il tifo più intenso.";
+  }
+
+  if (value.includes("distinti")) {
+    return "Posti con buona visuale sul campo e atmosfera equilibrata tra tifo e comodità.";
+  }
+
+  if (value.includes("tribuna laterale")) {
+    return "Settore laterale con visuale ampia sul campo e maggiore comfort durante l’evento.";
+  }
+
+  if (value.includes("tribuna centrale")) {
+    return "Posti centrali con visuale privilegiata, pensati per seguire ogni azione al meglio.";
+  }
+
+  if (value.includes("hospitality")) {
+    return "Esperienza premium con area dedicata, servizi esclusivi e massimo comfort.";
+  }
 
   if (value.includes("vip")) {
     return "Accesso prioritario, posti migliori e area dedicata.";
@@ -97,13 +118,17 @@ function getTicketDescription(ticketName) {
   return "Accesso all’evento con biglietto dedicato.";
 }
 
-function renderTicketTypes(ticketTypes) {
+function renderTicketTypes(ticketTypes, eventStatus) {
   const container = document.getElementById("ticketsList");
   container.innerHTML = "";
 
   ticketTypes.forEach(t => {
     const div = document.createElement("div");
     div.className = "ticket-card";
+
+    if (eventStatus !== "ACTIVE") {
+      div.classList.add("large");
+    }
 
     const icon = t.name?.toLowerCase().includes("vip") ? "👑" : "⭐";
 
@@ -114,12 +139,20 @@ function renderTicketTypes(ticketTypes) {
       <div class="ticket-divider"></div>
       <p class="ticket-description">${getTicketDescription(t.name)}</p>
       <div class="ticket-availability">Disponibili: <span>${t.availableSeats}</span></div>
-      <button class="ticket-button">PRENOTA</button>
+      <button class="ticket-button">
+        ${(eventStatus === "ACTIVE") ? "PRENOTA" : "NON DISPONIBILE"}
+      </button>
     `;
 
-    div.querySelector(".ticket-button").onclick = () => {
-      window.location.href = `/bookTicket.html?eventId=${eventId}&ticketTypeId=${t.id}`;
-    };
+    const btn = div.querySelector(".ticket-button");
+
+    if (eventStatus === "ACTIVE") {
+      btn.onclick = () => {
+        window.location.href = `/bookTicket.html?eventId=${eventId}&ticketTypeId=${t.id}`;
+      };
+    } else {
+      btn.disabled = true;
+    }
 
     container.appendChild(div);
   });

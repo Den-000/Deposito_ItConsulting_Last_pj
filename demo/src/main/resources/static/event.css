@@ -185,3 +185,20 @@
   font-size: 13px;
   font-weight: 500;
 }
+
+.ticket-card.large {
+  width: 260px;
+}
+
+.ticket-card.large {
+  width: 280px;
+  padding: 18px;
+}
+
+.tickets-section:has(.ticket-card.large) {
+  max-width: 980px;
+}
+
+#ticketsList {
+  flex-wrap: wrap;
+}

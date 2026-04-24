@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.mail.javamail.JavaMailSender;
@@ -57,6 +59,10 @@ public class EmailService {
                     ? ticket.getEvent().getLocation().getCity()
                     : "-";
 
+            String qrCode = valueOrDash(ticket.getQrCode());
+            String qrImageUrl = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="
+                    + URLEncoder.encode(qrCode, StandardCharsets.UTF_8);
+
             String html = """
                     <div style="font-family: Arial, sans-serif; max-width: 760px; margin: 0 auto; background: #0f172a; color: #e5e7eb; border-radius: 16px; overflow: hidden; border: 1px solid #334155;">
                         <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 28px; text-align: center;">
@@ -88,7 +94,8 @@ public class EmailService {
                             </div>
 
                             <div style="background: #111827; border: 1px dashed #6366f1; border-radius: 14px; padding: 22px; text-align: center;">
-                                <p style="margin: 0 0 10px 0; color: #94a3b8; font-size: 14px;">QR Code del biglietto</p>
+                                <p style="margin: 0 0 15px 0; color: #94a3b8; font-size: 14px;">QR Code del biglietto</p>
+                                <img src="%s" style="width: 220px; height: 220px; background: white; padding: 10px; border-radius: 12px; margin-bottom: 15px;" alt="QR Code biglietto">
                                 <p style="margin: 0; font-size: 20px; font-weight: bold; color: #ffffff; word-break: break-word;">%s</p>
                             </div>
 
@@ -110,13 +117,99 @@ public class EmailService {
                     valueOrDash(payment.getMethod()),
                     payment.getStatus() != null ? payment.getStatus().name() : "-",
                     paymentDate,
-                    valueOrDash(ticket.getQrCode())
+                    qrImageUrl,
+                    qrCode
             );
 
             helper.setText(html, true);
             mailSender.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException("Errore durante l'invio dell'email", e);
+        }
+    }
+
+    public void sendReminderEmail(Ticket ticket) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            String recipientEmail = ticket.getEmail() != null && !ticket.getEmail().isBlank()
+                    ? ticket.getEmail()
+                    : ticket.getUser().getEmail();
+
+            helper.setTo(recipientEmail);
+            helper.setSubject("Promemoria evento - " + ticket.getEvent().getName());
+
+            String eventDate = ticket.getEvent().getDate() != null
+                    ? ticket.getEvent().getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+                    : "-";
+
+            String locationName = ticket.getEvent().getLocation() != null
+                    ? ticket.getEvent().getLocation().getName()
+                    : "-";
+
+            String locationAddress = ticket.getEvent().getLocation() != null
+                    ? ticket.getEvent().getLocation().getAddress()
+                    : "-";
+
+            String locationCity = ticket.getEvent().getLocation() != null
+                    ? ticket.getEvent().getLocation().getCity()
+                    : "-";
+
+            String qrCode = valueOrDash(ticket.getQrCode());
+            String qrImageUrl = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="
+                    + URLEncoder.encode(qrCode, StandardCharsets.UTF_8);
+
+            String html = """
+                    <div style="font-family: Arial, sans-serif; max-width: 760px; margin: 0 auto; background: #0f172a; color: #e5e7eb; border-radius: 16px; overflow: hidden; border: 1px solid #334155;">
+                        <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 28px; text-align: center;">
+                            <h1 style="margin: 0; font-size: 30px; color: white;">Promemoria evento</h1>
+                            <p style="margin: 10px 0 0 0; color: #ede9fe; font-size: 15px;">Il tuo evento si terrà domani</p>
+                        </div>
+
+                        <div style="padding: 28px;">
+                            <p style="font-size: 16px; margin-top: 0;">Ciao %s %s,</p>
+                            <p style="font-size: 15px; color: #cbd5e1; margin-bottom: 24px;">
+                                ti ricordiamo che domani si terrà l'evento per cui hai acquistato il biglietto.
+                            </p>
+
+                            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 22px; margin-bottom: 20px;">
+                                <h2 style="margin: 0 0 16px 0; font-size: 20px; color: #ffffff;">Dettagli evento</h2>
+                                <p style="margin: 8px 0;"><strong>Evento:</strong> %s</p>
+                                <p style="margin: 8px 0;"><strong>Data:</strong> %s</p>
+                                <p style="margin: 8px 0;"><strong>Luogo:</strong> %s</p>
+                                <p style="margin: 8px 0;"><strong>Indirizzo:</strong> %s, %s</p>
+                                <p style="margin: 8px 0;"><strong>Tipo biglietto:</strong> %s</p>
+                            </div>
+
+                            <div style="background: #111827; border: 1px dashed #6366f1; border-radius: 14px; padding: 22px; text-align: center;">
+                                <p style="margin: 0 0 15px 0; color: #94a3b8; font-size: 14px;">QR Code del biglietto</p>
+                                <img src="%s" style="width: 220px; height: 220px; background: white; padding: 10px; border-radius: 12px; margin-bottom: 15px;" alt="QR Code biglietto">
+                                <p style="margin: 0; font-size: 20px; font-weight: bold; color: #ffffff; word-break: break-word;">%s</p>
+                            </div>
+
+                            <p style="margin-top: 24px; color: #cbd5e1; font-size: 14px;">
+                                Ti aspettiamo. Presenta questo codice al check-in per accedere all'evento.
+                            </p>
+                        </div>
+                    </div>
+                    """.formatted(
+                    valueOrDash(ticket.getFirstName()),
+                    valueOrDash(ticket.getLastName()),
+                    valueOrDash(ticket.getEvent().getName()),
+                    eventDate,
+                    locationName,
+                    locationAddress,
+                    locationCity,
+                    valueOrDash(ticket.getTicketType().getName()),
+                    qrImageUrl,
+                    qrCode
+            );
+
+            helper.setText(html, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Errore durante l'invio dell'email di promemoria", e);
         }
     }
 

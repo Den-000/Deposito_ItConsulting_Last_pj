@@ -34,9 +34,4 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * Filtra eventi in base allo stato (ACTIVE, CANCELLED, FINISHED).
      */
     List<Event> findByStatus(EventStatus status);
-
-    /**
-     * Restituisce un evento per ID.
-     */
-    Event findById(long id);
 }

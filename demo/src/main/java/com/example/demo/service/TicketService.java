@@ -79,6 +79,7 @@ public class TicketService {
         ticket.setPurchaseDate(LocalDateTime.now());
 
         type.setAvailableSeats(type.getAvailableSeats() - 1);
+        event.setBookedSeats(event.getBookedSeats() + 1);
 
         // ---------------- PAYMENT  (CASCADE) ----------------
         Payment payment = new Payment();
