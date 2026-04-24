@@ -12,7 +12,6 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
   <h2>NexTicket</h2>
 
@@ -20,17 +19,15 @@
 
   <h4>Admin</h4>
   <div class="nav-item" data-page="admin" onclick="window.location.href='/admin.html'">Dashboard Admin</div>
-
   <div class="nav-item" data-page="dashboardUsers" onclick="window.location.href='/dashboardUsers.html'">Dashboard Utenti</div>
   <div class="nav-item" data-page="dashboardEvents" onclick="window.location.href='/dashboardEvents.html'">Dashboard Eventi</div>
-  <div class="nav-item" data-page="dashboardLocations" onclick="window.location.href='/dashboardLocations.html'">Dashboard Location</div>
+  <div class="nav-item active" data-page="dashboardLocations" onclick="window.location.href='/dashboardLocations.html'">Dashboard Location</div>
   <div class="nav-item" data-page="dashboardNotifications" onclick="window.location.href='/dashboardNotifications.html'">Dashboard Notifiche</div>
 </div>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <form id="searchForm" class="search-form">
-    <input id="searchInput" type="text" class="search" placeholder="Cerca evento">
+    <input id="searchInput" type="text" class="search" placeholder="Cerca location">
 
     <button type="submit" class="topbar_btn">
       🔍 Cerca
@@ -54,36 +51,27 @@
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-    <h2>🎫 Ticket Detail 🎫</h2>
-  
-    <div class="card">
-      <p><b>ID:</b> <span id="ticketId"></span></p>
-      <p><b>Evento:</b> <span id="eventName"></span></p>
-      <p><b>Email:</b> <span id="email"></span></p>
-      <p><b>Data acquisto:</b> <span id="purchaseDate"></span></p>
-      <p><b>Valido:</b> <span id="valid"></span></p>
-      <p><b>Check-in:</b> <span id="checkedIn"></span></p>
-      <p><b>Tipo biglietto:</b> <span id="ticketType"></span></p>
-      <p><b>Prezzo biglietto:</b> <span id="price"></span></p>
+  <h2>📍 Locations Dashboard</h2>
 
-      <p><b>Pagamento:</b></p>
-      <p>Importo: <span id="paymentAmount"></span></p>
-      <p>Metodo: <span id="paymentMethod"></span></p>
-      <p>Stato: <span id="paymentStatus"></span></p>
-  
-      <button onclick="checkIn()">Check-in</button>
-      <button onclick="invalidate()">Invalidate</button>
-      <button onclick="deleteTicket()">Delete</button>
-    </div>
-  
-  </div>
+  <table id="locationsTable">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Città</th>
+        <th>Indirizzo</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
 
+    <tbody id="locationsBody">
+    </tbody>
+  </table>
 
-<!-- SCRIPT -->
-<script type="module" src="detailTicket.js"></script>
+</div>
+
+<script type="module" src="dashboardLocations.js"></script>
 <script type="module" src="profilo.js"></script>
 
 </body>

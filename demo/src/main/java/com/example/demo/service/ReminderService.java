@@ -23,7 +23,7 @@ public class ReminderService {
     private final TicketRepository ticketRepository;
     private final EmailService emailService;
 
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(fixedRate = 60000)
     public void sendEventReminders() {
         LocalDate tomorrow = LocalDate.now().plusDays(1);
 
@@ -36,8 +36,10 @@ public class ReminderService {
             List<Ticket> tickets = ticketRepository.findByEvent(event);
 
             for (Ticket ticket : tickets) {
-                if (ticket.isValid()) {
+                if (ticket.isValid() && !ticket.isReminderSent()) {
                     emailService.sendReminderEmail(ticket);
+                    ticket.setReminderSent(true);
+                    ticketRepository.save(ticket);
                 }
             }
         }

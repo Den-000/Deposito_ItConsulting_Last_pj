@@ -229,3 +229,18 @@
     flex-direction: column;
     align-items: center;
   }
+
+  .btn-delete {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+
+.btn-delete:hover {
+    background: #dc2626;
+  }

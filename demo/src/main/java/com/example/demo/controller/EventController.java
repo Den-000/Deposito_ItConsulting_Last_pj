@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.example.demo.model.Event;
 import com.example.demo.repository.EventRepository;
@@ -88,5 +89,19 @@ public class EventController {
     public Event getById(@PathVariable Long id) {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
+    }
+    /**
+     * ELIMINA un evento per ID.
+     * Metodo HTTP: DELETE /events/{id}
+     *
+     * @param id identificatore dell'evento
+     */
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        if (!repo.existsById(id)) {
+            throw new RuntimeException("Event not found");
+        }
+
+        repo.deleteById(id);
     }
 }

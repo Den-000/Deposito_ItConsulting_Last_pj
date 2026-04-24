@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CheckInRequest;
 import com.example.demo.dto.MyTicketResponse;
+import com.example.demo.dto.NotificationDTO;
 import com.example.demo.dto.TicketDTO;
 import com.example.demo.dto.TicketRequest;
 import com.example.demo.dto.TicketResponse;
@@ -43,5 +44,10 @@ public class TicketController {
     @GetMapping("/{id}")
     public TicketDTO getTicket(@PathVariable Long id) {
         return ticketService.getTicketById(id);
+    }
+
+    @GetMapping("/notifications")
+    public List<NotificationDTO> getNotifications() {
+        return ticketService.getAllNotifications();
     }
 }

@@ -20,9 +20,8 @@
 
   <h4>Admin</h4>
   <div class="nav-item" data-page="admin" onclick="window.location.href='/admin.html'">Dashboard Admin</div>
-
   <div class="nav-item" data-page="dashboardUsers" onclick="window.location.href='/dashboardUsers.html'">Dashboard Utenti</div>
-  <div class="nav-item" data-page="dashboardEvents" onclick="window.location.href='/dashboardEvents.html'">Dashboard Eventi</div>
+  <div class="nav-item active" data-page="dashboardEvents" onclick="window.location.href='/dashboardEvents.html'">Dashboard Eventi</div>
   <div class="nav-item" data-page="dashboardLocations" onclick="window.location.href='/dashboardLocations.html'">Dashboard Location</div>
   <div class="nav-item" data-page="dashboardNotifications" onclick="window.location.href='/dashboardNotifications.html'">Dashboard Notifiche</div>
 </div>
@@ -47,7 +46,6 @@
 
       <div class="dropdown-menu" id="dropdownMenu">
         <a href="/profilo.html">Profilo</a>
-        <a href="/biglietti.html">I miei biglietti</a>
         <a href="#" id="topBarBtn">Logout</a>
       </div>
     </div>
@@ -57,33 +55,28 @@
 <!-- MAIN -->
 <div class="main">
 
-    <h2>🎫 Ticket Detail 🎫</h2>
-  
-    <div class="card">
-      <p><b>ID:</b> <span id="ticketId"></span></p>
-      <p><b>Evento:</b> <span id="eventName"></span></p>
-      <p><b>Email:</b> <span id="email"></span></p>
-      <p><b>Data acquisto:</b> <span id="purchaseDate"></span></p>
-      <p><b>Valido:</b> <span id="valid"></span></p>
-      <p><b>Check-in:</b> <span id="checkedIn"></span></p>
-      <p><b>Tipo biglietto:</b> <span id="ticketType"></span></p>
-      <p><b>Prezzo biglietto:</b> <span id="price"></span></p>
+  <h2>🎫 Events Dashboard</h2>
 
-      <p><b>Pagamento:</b></p>
-      <p>Importo: <span id="paymentAmount"></span></p>
-      <p>Metodo: <span id="paymentMethod"></span></p>
-      <p>Stato: <span id="paymentStatus"></span></p>
-  
-      <button onclick="checkIn()">Check-in</button>
-      <button onclick="invalidate()">Invalidate</button>
-      <button onclick="deleteTicket()">Delete</button>
-    </div>
-  
-  </div>
+  <table id="eventsTable">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Data</th>
+        <th>Location</th>
+        <th>Stato</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
 
+    <tbody id="eventsBody">
+      <!-- JS inject -->
+    </tbody>
+  </table>
+
+</div>
 
 <!-- SCRIPT -->
-<script type="module" src="detailTicket.js"></script>
+<script type="module" src="dashboardEvents.js"></script>
 <script type="module" src="profilo.js"></script>
 
 </body>

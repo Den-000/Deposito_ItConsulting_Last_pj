@@ -77,4 +77,5 @@ public class Ticket {
     @JsonIgnoreProperties({"ticket", "user"})
     @OneToOne(mappedBy = "ticket", cascade = CascadeType.ALL)
     private Payment payment;
+    private boolean reminderSent;
 }

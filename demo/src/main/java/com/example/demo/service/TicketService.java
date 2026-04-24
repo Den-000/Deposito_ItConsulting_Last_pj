@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.CheckInRequest;
 import com.example.demo.dto.MyTicketResponse;
+import com.example.demo.dto.NotificationDTO;
 import com.example.demo.dto.TicketDTO;
 import com.example.demo.dto.TicketRequest;
 import com.example.demo.dto.TicketResponse;
@@ -205,4 +206,16 @@ public class TicketService {
     public long getSoldTickets(Long eventId) {
         return ticketRepository.countByEventId(eventId);
     }
+
+    public List<NotificationDTO> getAllNotifications() {
+    return ticketRepository.findAll().stream()
+            .map(ticket -> new NotificationDTO(
+                    ticket.getUser().getEmail(),
+                    ticket.getEvent().getName(),
+                    ticket.getEvent().getDate(),
+                    ticket.isReminderSent()
+            ))
+            .toList();
+}
+
 }
