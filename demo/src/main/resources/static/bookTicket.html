@@ -60,10 +60,16 @@
         <h3 class="step-title">Dati intestatario</h3>
 
         <label for="firstName">Nome</label>
-        <input type="text" id="firstName" placeholder="Inserisci nome">
+        <div class="email-row">
+          <input type="text" id="firstName" placeholder="Inserisci nome">
+          <button type="button" id="autofillFirstNameBtn" class="secondary-btn autofill-btn">Usa nome account</button>
+        </div>
 
         <label for="lastName">Cognome</label>
-        <input type="text" id="lastName" placeholder="Inserisci cognome">
+        <div class="email-row">
+          <input type="text" id="lastName" placeholder="Inserisci cognome">
+          <button type="button" id="autofillLastNameBtn" class="secondary-btn autofill-btn">Usa cognome account</button>
+        </div>
 
         <label for="email">Email</label>
         <div class="email-row">

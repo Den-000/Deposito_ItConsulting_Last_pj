@@ -9,6 +9,8 @@ const eventId = params.get("eventId");
 
 let selectedTicket = null;
 let accountEmail = "";
+let accountFirstName = "";
+let accountLastName = "";
 
 function getToken() {
   const token = localStorage.getItem("token");
@@ -169,19 +171,44 @@ async function buyTicket() {
   }
 }
 
-function loadAccountEmail() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
+async function loadAccountData() {
   try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    accountEmail = payload.email || payload.sub || "";
-  } catch {}
+    const token = getToken();
+    if (!token) return;
+
+    const res = await fetch("/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!res.ok) throw new Error();
+
+    const user = await res.json();
+
+    accountEmail = user.email || "";
+    accountFirstName = user.name || "";
+    accountLastName = user.surname || "";
+  } catch {
+    accountEmail = "";
+    accountFirstName = "";
+    accountLastName = "";
+  }
 }
 
 function autofillEmail() {
   if (!accountEmail) return;
   document.getElementById("email").value = accountEmail;
+}
+
+function autofillFirstName() {
+  if (!accountFirstName) return;
+  document.getElementById("firstName").value = accountFirstName;
+}
+
+function autofillLastName() {
+  if (!accountLastName) return;
+  document.getElementById("lastName").value = accountLastName;
 }
 
 function formatCardNumber(value) {
@@ -230,19 +257,20 @@ function initStepButtons() {
   document.getElementById("buyBtn").addEventListener("click", buyTicket);
 }
 
-function initEmailActions() {
-  const autofillBtn = document.getElementById("autofillEmailBtn");
-  autofillBtn.addEventListener("click", autofillEmail);
+function initAutofillActions() {
+  document.getElementById("autofillEmailBtn").addEventListener("click", autofillEmail);
+  document.getElementById("autofillFirstNameBtn").addEventListener("click", autofillFirstName);
+  document.getElementById("autofillLastNameBtn").addEventListener("click", autofillLastName);
 }
 
-function init() {
+async function init() {
   applySavedTheme();
   initProfileMenu();
-  loadAccountEmail();
+  await loadAccountData();
   loadData();
   initInputFormatting();
   initStepButtons();
-  initEmailActions();
+  initAutofillActions();
 }
 
 window.addEventListener("DOMContentLoaded", init);
